@@ -20,7 +20,10 @@ const getRandomArrayElement = (elements) => {
 };
 
 const getRandomDataArray = (data) => {
-  const targetLength = getRandomNumber(1, data.length)
+  const targetLength = getRandomNumber(0, data.length)
+  if (targetLength === 0) {
+    return undefined;
+  }
   const dataArray = new Array(targetLength).fill(1);
   return dataArray.reduce((acc) => {
     let dataItem = getRandomArrayElement(data);
