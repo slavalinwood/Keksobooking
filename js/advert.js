@@ -70,8 +70,7 @@ adverts.forEach( ({author, offer}) => {
   const cardCapacity = card.querySelector('.popup__text--capacity');
   const cardTime = card.querySelector('.popup__text--time');
   const cardDescription = card.querySelector('.popup__description');
-  
-  
+   
   checkData(cardAvatar, author.avatar);
   checkData(cardTitle, offer.title);
   checkData(cardAddress, offer.address);
@@ -99,4 +98,6 @@ adverts.forEach( ({author, offer}) => {
   similarCardsList.appendChild(card);
 });
 
-mapCanvas.appendChild(similarCardsList.children[0]);
+mapCanvas.appendChild(similarCardsList);
+
+export {mapCanvas}
