@@ -6,13 +6,23 @@ const priceInput = form.querySelector('#price');
 const checkInSelect = form.querySelector('#timein');
 const checkoutSelect = form.querySelector('#timeout');
 
-const createNeededOffersArray = (data, offerClassName, offerText) => {
+const findOfferStartingPrice = (data, offerClassName, offerText, priceClassName) => {
   const allOffers = data.querySelectorAll(`.${offerClassName}`);
-  let neededOffers = [];
+  const pricesArray = [];
   allOffers.forEach((elem) => {
     if(elem.textContent === offerText) {
-      neededOffers.push(elem)
+      const neededFragment = elem.parentElement;
+      const currentPrice = neededFragment.querySelector(`.${priceClassName}`).textContent;
+      pricesArray.push(currentPrice);
     }
   })
-  return neededOffers
+  let minPrice = pricesArray[0];
+  pricesArray.forEach((elem) => {
+    if (minPrice > elem) {
+      minPrice = elem;
+    }
+  })
+  return minPrice
 };
+
+findOfferStartingPrice(mapCanvas, 'popup__type', 'Квартира', 'popup__text--price')
