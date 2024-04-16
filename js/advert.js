@@ -25,14 +25,14 @@ const createNewFeaturesList = (list, data, map) => {
   }
   const tempFeature = list.children[0];
   const newList = document.createDocumentFragment();
-  for (let i = 0; i < data.length; i++) {
+  data.forEach((elem) => {
     const feature = tempFeature.cloneNode(true);
     const classNames = feature.classList;
     let lastClass = classNames[classNames.length - 1];
     feature.classList.remove(lastClass);
-    feature.classList.add(map.get(data[i]));
+    feature.classList.add(map.get(elem));
     newList.appendChild(feature);
-  }
+  }) 
   list.innerHTML = '';
   list.appendChild(newList);
 };
@@ -50,12 +50,12 @@ const createNewPhotosList = (list, data) => {
     return
   }
   const tempPhoto = list.children[0];
-  for (let i = 0; i < data.length; i++) {
+  data.forEach((elem) => {
     const photo = tempPhoto.cloneNode(true);
     tempPhoto.remove();
-    photo.src = data[i];
+    photo.src = elem;
     list.appendChild(photo);
-  }
+  })
 };
 
 adverts.forEach( ({author, offer}) => {
