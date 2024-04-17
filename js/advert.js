@@ -1,17 +1,39 @@
 import { createAdverts } from './data.js';
 
+const HOUSING = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'hotel': 'Отель',
+  'bungalow': 'Бунгало',
+};
+
+const FEATURES_MAP = {
+  'wifi': 'popup__feature--wifi',
+  'dishwasher': 'popup__feature--dishwasher',
+  'parking': 'popup__feature--parking',
+  'washer': 'popup__feature--washer',
+  'elavator': 'popup__feature--elevator',
+  'conditioner': 'popup__feature--conditioner',
+};
+
+const CARD_CLASSES = {
+  photos: 'popup__photos',
+  features: 'popup__features',
+  avatar: 'popup__avatar',
+  title: 'popup__title',
+  address: 'popup__text--address',
+  price: 'popup__text--price',
+  type: 'popup__type',
+  capacity: 'popup__text--capacity',
+  time: 'popup__text--time',
+  description: 'popup__description',
+}
+
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const mapCanvas = document.querySelector('#map-canvas');
 const adverts = createAdverts();
 const similarCardsList = document.createDocumentFragment();
-
-const featuresMap = new Map();
-featuresMap.set('wifi', 'popup__feature--wifi');
-featuresMap.set('dishwasher', 'popup__feature--dishwasher');
-featuresMap.set('parking', 'popup__feature--parking');
-featuresMap.set('washer', 'popup__feature--washer');
-featuresMap.set('elavator', 'popup__feature--elevator');
-featuresMap.set('conditioner', 'popup__feature--conditioner');
 
 const checkData = (node, data) => {
   if (!data) {
@@ -30,19 +52,11 @@ const createNewFeaturesList = (list, data, map) => {
     const classNames = feature.classList;
     let lastClass = classNames[classNames.length - 1];
     feature.classList.remove(lastClass);
-    feature.classList.add(map.get(elem));
+    feature.classList.add(map[elem]);
     newList.appendChild(feature);
   }) 
   list.innerHTML = '';
   list.appendChild(newList);
-};
-
-const HOUSING = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'hotel': 'Отель',
-  'bungalow': 'Бунгало',
 };
 
 const createNewPhotosList = (list, data) => {
@@ -60,17 +74,17 @@ const createNewPhotosList = (list, data) => {
 
 adverts.forEach( ({author, offer}) => {
   const card = cardTemplate.cloneNode(true);
-  const cardPhotos = card.querySelector('.popup__photos');
-  const cardFeatures = card.querySelector('.popup__features');
-  const cardAvatar = card.querySelector('.popup__avatar');
-  const cardTitle = card.querySelector('.popup__title');
-  const cardAddress = card.querySelector('.popup__text--address');
-  const cardPrice = card.querySelector('.popup__text--price');
-  const cardType = card.querySelector('.popup__type');
-  const cardCapacity = card.querySelector('.popup__text--capacity');
-  const cardTime = card.querySelector('.popup__text--time');
-  const cardDescription = card.querySelector('.popup__description');
-   
+  const cardPhotos = card.querySelector(`.${CARD_CLASSES.photos}`);
+  const cardFeatures = card.querySelector(`.${CARD_CLASSES.features}`);
+  const cardAvatar = card.querySelector(`.${CARD_CLASSES.avatar}`);
+  const cardTitle = card.querySelector(`.${CARD_CLASSES.title}`);
+  const cardAddress = card.querySelector(`.${CARD_CLASSES.address}`);
+  const cardPrice = card.querySelector(`.${CARD_CLASSES.price}`);
+  const cardType = card.querySelector(`.${CARD_CLASSES.type}`);
+  const cardCapacity = card.querySelector(`.${CARD_CLASSES.capacity}`);
+  const cardTime = card.querySelector(`.${CARD_CLASSES.time}`);
+  const cardDescription = card.querySelector(`.${CARD_CLASSES.description}`);
+
   checkData(cardAvatar, author.avatar);
   checkData(cardTitle, offer.title);
   checkData(cardAddress, offer.address);
@@ -83,21 +97,21 @@ adverts.forEach( ({author, offer}) => {
   checkData(cardDescription, offer.description);
   checkData(cardPhotos, offer.photos);
   checkData(cardFeatures, offer.features);
-  
+
   cardAvatar.src = author.avatar;
   cardTitle.textContent = offer.title;
   cardAddress.textContent = offer.address;
-  cardPrice.textContent = `${offer.price} ₽/ночь` 
+  cardPrice.innerHTML = `${offer.price} <span>₽/ночь</span>`;
   cardType.textContent = HOUSING[offer.type];
   cardCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   cardDescription.textContent = offer.description;
-  createNewFeaturesList(cardFeatures, offer.features, featuresMap);
+  createNewFeaturesList(cardFeatures, offer.features, FEATURES_MAP);
   createNewPhotosList(cardPhotos, offer.photos);
-  
+
   similarCardsList.appendChild(card);
 });
 
 mapCanvas.appendChild(similarCardsList);
 
-export {mapCanvas}
+export {mapCanvas, CARD_CLASSES}
