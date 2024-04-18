@@ -8,13 +8,21 @@ const HOUSING_STARTING_PRICE = {
 const form = document.querySelector('.ad-form');
 const housingSelect = form.querySelector('#type');
 const priceInput = form.querySelector('#price');
-const checkInSelect = form.querySelector('#timein');
-const checkoutSelect = form.querySelector('#timeout');
+const timeFieldset = form.querySelector('.ad-form__element--time');
+const checkInSelect = timeFieldset.querySelector('#timein');
+const checkoutSelect = timeFieldset.querySelector('#timeout');
 
 const onHousingSelectChange = (evt) => {
+  priceInput.value = '';
   priceInput.placeholder = HOUSING_STARTING_PRICE[evt.target.value];
   priceInput.min = HOUSING_STARTING_PRICE[evt.target.value];
-  priceInput.value = '';
 };
 
+const onTimeFieldsetChange = (evt) => {
+  checkoutSelect.value = evt.target.value;
+  checkInSelect.value = evt.target.value;
+};
+
+
 housingSelect.addEventListener('change', onHousingSelectChange);
+timeFieldset.addEventListener('change', onTimeFieldsetChange);
