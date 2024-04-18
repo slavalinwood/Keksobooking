@@ -68,7 +68,7 @@ const ROOMS = {
 
 const GUESTS = {
   min: 1,
-  max: 10,
+  max: 50,
 };
 
 const ADVERTS_NUMBER = 10;

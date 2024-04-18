@@ -114,4 +114,4 @@ adverts.forEach( ({author, offer}) => {
 
 mapCanvas.appendChild(similarCardsList);
 
-export {mapCanvas, CARD_CLASSES}
+export {mapCanvas}
