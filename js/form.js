@@ -13,6 +13,12 @@ const timeFieldset = form.querySelector('.ad-form__element--time');
 const checkInSelect = timeFieldset.querySelector('#timein');
 const checkoutSelect = timeFieldset.querySelector('#timeout');
 
+const disableForm = (formControls) => {
+  for (let i = 0; i < formControls.length; i++) {
+    formControls[i].disabled = true;
+  }
+};
+
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
   priceInput.placeholder = HOUSING_STARTING_PRICE[evt.target.value];
@@ -25,10 +31,9 @@ const onTimeFieldsetChange = (evt) => {
 };
 
 form.classList.add('ad-form--disabled');
-
-for (let i = 0; i < formFieldsets.length; i++) {
-  formFieldsets[i].disabled = true;
-}
+disableForm(formFieldsets);
 
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
+
+export {disableForm};
