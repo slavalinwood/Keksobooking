@@ -1,3 +1,5 @@
+import {disableForm} from './util.js';
+
 const HOUSING_STARTING_PRICE = {
   'bungalow': 10000,
   'flat': 5000,
@@ -12,12 +14,6 @@ const priceInput = form.querySelector('#price');
 const timeFieldset = form.querySelector('.ad-form__element--time');
 const checkInSelect = timeFieldset.querySelector('#timein');
 const checkoutSelect = timeFieldset.querySelector('#timeout');
-
-const disableForm = (formControls) => {
-  for (let i = 0; i < formControls.length; i++) {
-    formControls[i].disabled = true;
-  }
-};
 
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
@@ -36,4 +32,4 @@ disableForm(formFieldsets);
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
 
-export {disableForm};
+export {form, formFieldsets};

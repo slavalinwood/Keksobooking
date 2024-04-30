@@ -40,4 +40,16 @@ const generateFilePath = (path, counter, format) => {
   return path + '0' + number + format;
 };
 
-export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath};
+const disableForm = (formControls) => {
+  for (let i = 0; i < formControls.length; i++) {
+    formControls[i].disabled = true;
+  }
+};
+
+const enableForm = (formControls) => {
+  for (let i = 0; i < formControls.length; i++) {
+    formControls[i].disabled = false;
+  }
+};
+
+export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm};
