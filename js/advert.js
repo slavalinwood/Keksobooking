@@ -17,21 +17,7 @@ const FEATURES_MAP = {
   'conditioner': 'popup__feature--conditioner',
 };
 
-const CARD_CLASSES = {
-  photos: 'popup__photos',
-  features: 'popup__features',
-  avatar: 'popup__avatar',
-  title: 'popup__title',
-  address: 'popup__text--address',
-  price: 'popup__text--price',
-  type: 'popup__type',
-  capacity: 'popup__text--capacity',
-  time: 'popup__text--time',
-  description: 'popup__description',
-}
-
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
 const adverts = createAdverts();
 const similarCardsList = document.createDocumentFragment();
 
@@ -50,7 +36,7 @@ const createNewFeaturesList = (list, data, map) => {
   data.forEach((elem) => {
     const feature = tempFeature.cloneNode(true);
     const classNames = feature.classList;
-    let lastClass = classNames[classNames.length - 1];
+    const lastClass = classNames[classNames.length - 1];
     feature.classList.remove(lastClass);
     feature.classList.add(map[elem]);
     newList.appendChild(feature);
@@ -74,34 +60,26 @@ const createNewPhotosList = (list, data) => {
 
 adverts.forEach( ({author, offer}) => {
   const card = cardTemplate.cloneNode(true);
-  const cardPhotos = card.querySelector(`.${CARD_CLASSES.photos}`);
-  const cardFeatures = card.querySelector(`.${CARD_CLASSES.features}`);
-  const cardAvatar = card.querySelector(`.${CARD_CLASSES.avatar}`);
-  const cardTitle = card.querySelector(`.${CARD_CLASSES.title}`);
-  const cardAddress = card.querySelector(`.${CARD_CLASSES.address}`);
-  const cardPrice = card.querySelector(`.${CARD_CLASSES.price}`);
-  const cardType = card.querySelector(`.${CARD_CLASSES.type}`);
-  const cardCapacity = card.querySelector(`.${CARD_CLASSES.capacity}`);
-  const cardTime = card.querySelector(`.${CARD_CLASSES.time}`);
-  const cardDescription = card.querySelector(`.${CARD_CLASSES.description}`);
+  const cardPhotos = card.querySelector('.popup__photos');
+  const cardFeatures = card.querySelector('.popup__features');
+  const cardAvatar = card.querySelector('.popup__avatar');
+  const cardTitle = card.querySelector('.popup__title');
+  const cardAddress = card.querySelector('.popup__text--address');
+  const cardPrice = card.querySelector('.popup__text--price');
+  const cardType = card.querySelector('.popup__type');
+  const cardCapacity = card.querySelector('.popup__text--capacity');
+  const cardTime = card.querySelector('.popup__text--time');
+  const cardDescription = card.querySelector('.popup__description');
+  const cardChildren = card.children;
 
   checkData(cardAvatar, author.avatar);
-  checkData(cardTitle, offer.title);
-  checkData(cardAddress, offer.address);
-  checkData(cardPrice, offer.price);
-  checkData(cardType, offer.type);
-  checkData(cardCapacity, offer.rooms);
-  checkData(cardCapacity, offer.guests);
-  checkData(cardTime, offer.checkin);
-  checkData(cardTime, offer.checkout);
-  checkData(cardDescription, offer.description);
   checkData(cardPhotos, offer.photos);
   checkData(cardFeatures, offer.features);
 
   cardAvatar.src = author.avatar;
   cardTitle.textContent = offer.title;
   cardAddress.textContent = offer.address;
-  cardPrice.innerHTML = `${offer.price} <span>₽/ночь</span>`;
+  cardPrice.textContent = `${offer.price} ₽/ночь`;
   cardType.textContent = HOUSING[offer.type];
   cardCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
@@ -109,9 +87,11 @@ adverts.forEach( ({author, offer}) => {
   createNewFeaturesList(cardFeatures, offer.features, FEATURES_MAP);
   createNewPhotosList(cardPhotos, offer.photos);
 
+  for (let elem of cardChildren) {
+    if (elem.textContent.includes('undefined')) {
+      elem.remove();
+    }
+  }
+
   similarCardsList.appendChild(card);
 });
-
-mapCanvas.appendChild(similarCardsList);
-
-export {mapCanvas}

@@ -1,8 +1,5 @@
 const getRandomNumber = (min, max, signCounter = 0) => {
-  if (min < 0 || max < 0) {
-    return -1;
-  }
-  if (max === min) {
+  if (min < 0 || max < 0 || max === min) {
     return -1;
   }
   if (max < min) {

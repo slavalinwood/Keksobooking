@@ -6,6 +6,7 @@ const HOUSING_STARTING_PRICE = {
 };
 
 const form = document.querySelector('.ad-form');
+const formFieldsets = form.children;
 const housingSelect = form.querySelector('#type');
 const priceInput = form.querySelector('#price');
 const timeFieldset = form.querySelector('.ad-form__element--time');
@@ -23,6 +24,11 @@ const onTimeFieldsetChange = (evt) => {
   checkInSelect.value = evt.target.value;
 };
 
+form.classList.add('ad-form--disabled');
+
+for (let i = 0; i < formFieldsets.length; i++) {
+  formFieldsets[i].disabled = true;
+}
 
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
