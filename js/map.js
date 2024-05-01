@@ -1,11 +1,15 @@
 import {disableForm, enableForm} from './util.js';
 import {form, formFieldsets} from './form.js';
 
+const COORDINATES = {
+  lat: 35.65283,
+  lng: 139.83948,
+  float: 5,
+};
+
+const address = document.querySelector('#address');
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersSelects = mapFilters.children;
-
-mapFilters.classList.add('map__filters--disabled');
-disableForm(mapFiltersSelects);
 
 const onMapLoad = () => {
   enableForm(mapFiltersSelects);
@@ -14,9 +18,18 @@ const onMapLoad = () => {
   form.classList.remove('ad-form--disabled');
 }; 
 
+const onMove = (evt) => {
+  const coordinates = evt.target.getLatLng();
+  const coordinatesArray = Object.values(coordinates);
+  address.value = `${(coordinatesArray[0]).toFixed(COORDINATES.float)}, ${(coordinatesArray[1]).toFixed(COORDINATES.float)}`;
+};
+
+mapFilters.classList.add('map__filters--disabled');
+disableForm(mapFiltersSelects);
+
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
-  lat: 35.652832,
-  lng: 139.839478,
+  lat: COORDINATES.lat,
+  lng: COORDINATES.lng,
 }, 10);
 
 const mapLayer = L.tileLayer(
@@ -34,8 +47,8 @@ const mainPinIcon = L.icon({
 
 const marker = L.marker(
   {
-    lat: 35.652832,
-    lng: 139.839478,
+    lat: COORDINATES.lat,
+    lng: COORDINATES.lng,
   },
   {
     draggable: true,
@@ -43,5 +56,12 @@ const marker = L.marker(
   },
 );
 
+if(address.parentElement.disabled) {
+  address.value = '';
+} else {
+  address.value = `${COORDINATES.lat}, ${COORDINATES.lng}`;
+}
+
 mapLayer.addTo(map);
 marker.addTo(map);
+marker.on('move', onMove);
