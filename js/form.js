@@ -1,5 +1,7 @@
 import {disableForm} from './util.js';
 
+const MAX_ROOMS = '100';
+
 const HOUSING_STARTING_PRICE = {
   'bungalow': 0,
   'flat': 1000,
@@ -30,29 +32,38 @@ const onTimeFieldsetChange = (evt) => {
 };
 
 const onRoomsSelectChange = (evt) => {
-  guestsSelect.value = evt.target.value;
   const guestsOptions = guestsSelect.children;
   for (let i = 0; i < guestsOptions.length; i++) {
-    const currentOption = guestsOptions[i];
-    if (currentOption.value > evt.target.value) {
-      currentOption.disabled = true;
+    const currentGuestsOption = guestsOptions[i];
+    if (currentGuestsOption.value > evt.target.value || currentGuestsOption.value === '0') {
+      currentGuestsOption.disabled = true;
     }else {
-      currentOption.disabled = false;
+      currentGuestsOption.disabled = false;
+      guestsSelect.value = currentGuestsOption.value;
+    }
+    if (evt.target.value === MAX_ROOMS) {
+      if (currentGuestsOption.value !== '0') {
+        currentGuestsOption.disabled = true;
+      }else {
+        currentGuestsOption.disabled = false;
+        guestsSelect.value = currentGuestsOption.value;
+      }
     }
   }
 };
+
+const onGuestsSelectChange = (evt) => {};
 
 form.classList.add('ad-form--disabled');
 disableForm(formFieldsets);
 
 priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
+roomsSelect.value = guestsSelect.value;
 
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
-guestsSelect.addEventListener('change', () => {});
-
-
+guestsSelect.addEventListener('change', onGuestsSelectChange);
 
 export {form, formFieldsets};
