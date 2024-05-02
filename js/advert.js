@@ -95,3 +95,5 @@ adverts.forEach( ({author, offer}) => {
 
   similarCardsList.appendChild(card);
 });
+
+export {similarCardsList};

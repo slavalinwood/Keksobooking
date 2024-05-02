@@ -1,5 +1,6 @@
 import {disableForm, enableForm} from './util.js';
 import {form, formFieldsets} from './form.js';
+import { similarCardsList } from './advert.js';
 
 const COORDINATES = {
   lat: 35.65283,
@@ -45,7 +46,13 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
-const marker = L.marker(
+const regularPinIcon = L.icon({
+  iconUrl: 'keksobooking-leaflet/leaflet/img/pin.svg',
+  inconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const mainMarker = L.marker(
   {
     lat: COORDINATES.lat,
     lng: COORDINATES.lng,
@@ -63,5 +70,22 @@ if(address.parentElement.disabled) {
 }
 
 mapLayer.addTo(map);
-marker.addTo(map);
-marker.on('move', onMove);
+mainMarker.addTo(map);
+mainMarker.on('move', onMove);
+
+for (let i = 0; i < similarCardsList.children.length; i++) {
+  const currentAdress = similarCardsList.children[i].querySelector('.popup__text--address');
+  const addressLat = currentAdress.textContent.split(',')[0];
+  const addressLng = currentAdress.textContent.split(' ')[1];
+  const regularMarker = L.marker(
+    {
+      lat: addressLat,
+      lng: addressLng,
+    },
+    {
+      draggable: true,
+      icon: regularPinIcon,
+    },
+  );
+  regularMarker.addTo(map);
+}
