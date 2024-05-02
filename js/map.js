@@ -87,5 +87,5 @@ for (let i = 0; i < similarCardsList.children.length; i++) {
       icon: regularPinIcon,
     },
   );
-  regularMarker.addTo(map);
+  regularMarker.addTo(map).bindPopup(similarCardsList.children[i]);
 }
