@@ -1,7 +1,7 @@
 import {disableForm} from './util.js';
 
 const MAX_ROOMS = '100';
-
+const INVALID_OUTLINE = '2px solid red';
 const HOUSING_STARTING_PRICE = {
   'bungalow': 0,
   'flat': 1000,
@@ -21,6 +21,8 @@ const checkoutSelect = timeFieldset.querySelector('#timeout');
 const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
+
+
 
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
@@ -75,8 +77,17 @@ const onGuestsSelectChange = (evt) => {
   }
 };
 
+const onGuestsSelectInvalid =  () => {
+  if (guestsSelect.value > roomsSelect.value) {
+    guestsSelect.setCustomValidity('Мест не должно быть больше комнат!');
+    guestsSelect.style.outline = INVALID_OUTLINE;
+  }else {
+    guestsSelect.setCustomValidity('');
+  }
+}; 
+
 const onInputInvalid = (evt) => {
-  evt.target.style.outline = '2px solid red';
+  evt.target.style.outline = INVALID_OUTLINE;
 };
 
 form.classList.add('ad-form--disabled');
@@ -84,14 +95,18 @@ disableForm(formFieldsets);
 
 priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
-
-housingSelect.addEventListener('change', onHousingSelectChange);
-timeFieldset.addEventListener('change', onTimeFieldsetChange);
-roomsSelect.addEventListener('change', onRoomsSelectChange);
-guestsSelect.addEventListener('change', onGuestsSelectChange);
+if (guestsSelect.value > roomsSelect.value) {
+  guestsSelect.setCustomValidity('!');
+  console.log('hiiiiiiii');
+}
 
 for (let i = 0; i < allFormInputs.length; i++) {
   allFormInputs[i].addEventListener('invalid', onInputInvalid);
 }
+housingSelect.addEventListener('change', onHousingSelectChange);
+timeFieldset.addEventListener('change', onTimeFieldsetChange);
+roomsSelect.addEventListener('change', onRoomsSelectChange);
+guestsSelect.addEventListener('change', onGuestsSelectChange);
+guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
 
 export {form, formFieldsets, address};
