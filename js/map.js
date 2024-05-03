@@ -1,5 +1,5 @@
 import {disableForm, enableForm} from './util.js';
-import {form, formFieldsets} from './form.js';
+import {form, formFieldsets, address} from './form.js';
 import { similarCardsList } from './advert.js';
 
 const COORDINATES = {
@@ -8,7 +8,6 @@ const COORDINATES = {
   float: 5,
 };
 
-const address = document.querySelector('#address');
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersSelects = mapFilters.children;
 
@@ -66,7 +65,7 @@ const mainMarker = L.marker(
 if(address.parentElement.disabled) {
   address.value = '';
 } else {
-  address.value = `${COORDINATES.lat}, ${COORDINATES.lng}`;
+  address.defaultValue = `${COORDINATES.lat}, ${COORDINATES.lng}`;
 }
 
 mapLayer.addTo(map);

@@ -11,6 +11,7 @@ const HOUSING_STARTING_PRICE = {
 
 const form = document.querySelector('.ad-form');
 const formFieldsets = form.children;
+const address = form.querySelector('#address');
 const housingSelect = form.querySelector('#type');
 const selectedHousing = housingSelect.querySelector('[selected]');
 const priceInput = form.querySelector('#price');
@@ -19,6 +20,7 @@ const checkInSelect = timeFieldset.querySelector('#timein');
 const checkoutSelect = timeFieldset.querySelector('#timeout');
 const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
+const allFormInputs = form.querySelectorAll('input');
 
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
@@ -73,16 +75,23 @@ const onGuestsSelectChange = (evt) => {
   }
 };
 
+const onInputInvalid = (evt) => {
+  evt.target.style.outline = '2px solid red';
+};
+
 form.classList.add('ad-form--disabled');
 disableForm(formFieldsets);
 
 priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
-roomsSelect.value = guestsSelect.value;
 
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 
-export {form, formFieldsets};
+for (let i = 0; i < allFormInputs.length; i++) {
+  allFormInputs[i].addEventListener('invalid', onInputInvalid);
+}
+
+export {form, formFieldsets, address};
