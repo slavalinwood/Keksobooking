@@ -97,7 +97,6 @@ priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
 if (guestsSelect.value > roomsSelect.value) {
   guestsSelect.setCustomValidity('!');
-  console.log('hiiiiiiii');
 }
 
 for (let i = 0; i < allFormInputs.length; i++) {
