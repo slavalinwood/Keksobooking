@@ -52,7 +52,26 @@ const onRoomsSelectChange = (evt) => {
   }
 };
 
-const onGuestsSelectChange = (evt) => {};
+const onGuestsSelectChange = (evt) => {
+  const roomsOptions = roomsSelect.children;
+  for (let i = 0; i < roomsOptions.length; i++) {
+    const currentRoomOption = roomsOptions[i];
+    if (currentRoomOption.value < evt.target.value || currentRoomOption.value === MAX_ROOMS) {
+      currentRoomOption.disabled = true;
+    }else {
+      currentRoomOption.disabled = false;
+      roomsSelect.value = currentRoomOption.value;
+    }
+    if (evt.target.value === '0') {
+      if (currentRoomOption.value !== MAX_ROOMS) {
+        currentRoomOption.disabled = true;
+      }else {
+        currentRoomOption.disabled = false;
+        roomsSelect.value = currentRoomOption.value;
+      }
+    } 
+  }
+};
 
 form.classList.add('ad-form--disabled');
 disableForm(formFieldsets);
