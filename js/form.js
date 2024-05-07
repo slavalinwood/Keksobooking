@@ -21,6 +21,8 @@ const checkoutSelect = timeFieldset.querySelector('#timeout');
 const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
+const roomsOptions = roomsSelect.children;
+const guestsOptions = guestsSelect.children;
 
 
 
@@ -36,52 +38,46 @@ const onTimeFieldsetChange = (evt) => {
 };
 
 const onRoomsSelectChange = (evt) => {
-  const guestsOptions = guestsSelect.children;
-  for (let i = 0; i < guestsOptions.length; i++) {
-    const currentGuestsOption = guestsOptions[i];
-    if (currentGuestsOption.value > evt.target.value || currentGuestsOption.value === '0') {
-      currentGuestsOption.disabled = true;
+  for (let guestsOption of guestsOptions) {
+    if (guestsOption.value > evt.target.value || guestsOption.value === '0') {
+      guestsOption.disabled = true;
     }else {
-      currentGuestsOption.disabled = false;
-      guestsSelect.value = currentGuestsOption.value;
+      guestsOption.disabled = false;
+      guestsSelect.value = guestsOption.value;
     }
     if (evt.target.value === MAX_ROOMS) {
-      if (currentGuestsOption.value !== '0') {
-        currentGuestsOption.disabled = true;
+      if (guestsOption.value !== '0') {
+        guestsOption.disabled = true;
       }else {
-        currentGuestsOption.disabled = false;
-        guestsSelect.value = currentGuestsOption.value;
+        guestsOption.disabled = false;
+        guestsSelect.value = guestsOption.value;
       }
     }
   }
 };
 
 const onGuestsSelectChange = (evt) => {
-  const roomsOptions = roomsSelect.children;
-  for (let i = 0; i < roomsOptions.length; i++) {
-    const currentRoomOption = roomsOptions[i];
-    if (currentRoomOption.value < evt.target.value || currentRoomOption.value === MAX_ROOMS) {
-      currentRoomOption.disabled = true;
+  for (let roomsOption of roomsOptions) {
+    if (roomsOption.value < evt.target.value || roomsOption.value === MAX_ROOMS) {
+      roomsOption.disabled = true;
     }else {
-      currentRoomOption.disabled = false;
-      roomsSelect.value = currentRoomOption.value;
+      roomsOption.disabled = false;
+      roomsSelect.value = roomsOption.value;
     }
     if (evt.target.value === '0') {
-      if (currentRoomOption.value !== MAX_ROOMS) {
-        currentRoomOption.disabled = true;
+      if (roomsOption.value !== MAX_ROOMS) {
+        roomsOption.disabled = true;
       }else {
-        currentRoomOption.disabled = false;
-        roomsSelect.value = currentRoomOption.value;
+        roomsOption.disabled = false;
+        roomsSelect.value = roomsOption.value;
       }
     } 
   }
 };
 
 const onGuestsSelectInvalid =  () => {
-  if (guestsSelect.value > roomsSelect.value) {
-    guestsSelect.setCustomValidity('Мест не должно быть больше комнат!');
-    guestsSelect.style.outline = INVALID_OUTLINE;
-  }else {
+  guestsSelect.style.outline = INVALID_OUTLINE;
+  if (guestsSelect.value < roomsSelect.value) {
     guestsSelect.setCustomValidity('');
   }
 }; 
@@ -95,12 +91,13 @@ disableForm(formFieldsets);
 
 priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
+
 if (guestsSelect.value > roomsSelect.value) {
-  guestsSelect.setCustomValidity('!');
+  guestsSelect.setCustomValidity('Мест не должно быть больше комнат!')
 }
 
-for (let i = 0; i < allFormInputs.length; i++) {
-  allFormInputs[i].addEventListener('invalid', onInputInvalid);
+for (let formInput of allFormInputs) {
+  formInput.addEventListener('invalid', onInputInvalid);
 }
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
