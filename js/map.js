@@ -1,7 +1,8 @@
 import {disableForm, enableForm} from './util.js';
 import {form, formFieldsets, address} from './form.js';
-import {similarCardsList} from './advert.js';
-import { getData } from './api.js';
+import {similarCardsList } from './advert.js';
+
+const MAP_ZOOM = 10;
 
 const COORDINATES = {
   lat: 35.65283,
@@ -31,7 +32,7 @@ disableForm(mapFiltersSelects);
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
   lat: COORDINATES.lat,
   lng: COORDINATES.lng,
-}, 10);
+}, MAP_ZOOM);
 
 const mapLayer = L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -73,14 +74,6 @@ mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
 
-/*const getAdvertsLocation = () => {
-  return getData((advertsArray) => {
-    advertsArray.reduce((advert) => {
-
-    }, [])
-  })  
-}
-*/
 for (let i = 0; i < similarCardsList.children.length; i++) {
   const currentAdress = similarCardsList.children[i].querySelector('.popup__text--address');
   const addressLat = currentAdress.textContent.split(',')[0];

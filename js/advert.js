@@ -98,6 +98,4 @@ const renderAdverts = (similarAdverts) => {
   });
 }
 
-console.log(similarCardsList.children)
-
 export {similarCardsList, renderAdverts};
