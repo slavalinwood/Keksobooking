@@ -1,6 +1,7 @@
 import {disableForm, enableForm} from './util.js';
 import {form, formFieldsets, address} from './form.js';
-import { similarCardsList } from './advert.js';
+import {similarCardsList} from './advert.js';
+import { getData } from './api.js';
 
 const COORDINATES = {
   lat: 35.65283,
@@ -72,6 +73,14 @@ mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
 
+/*const getAdvertsLocation = () => {
+  return getData((advertsArray) => {
+    advertsArray.reduce((advert) => {
+
+    }, [])
+  })  
+}
+*/
 for (let i = 0; i < similarCardsList.children.length; i++) {
   const currentAdress = similarCardsList.children[i].querySelector('.popup__text--address');
   const addressLat = currentAdress.textContent.split(',')[0];
