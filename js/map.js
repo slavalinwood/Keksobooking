@@ -27,7 +27,23 @@ const onMapLoad = () => {
   form.classList.remove('ad-form--disabled');
   getData((advertsArray) => {
     renderAdverts(advertsArray.slice(0, ADVERTS_COUNT));
-  })
+    for (let i = 0; i < similarCardsList.children.length; i++) {
+      const currentAdress = advertsArray[i].location;
+      const addressLat = currentAdress.lat;
+      const addressLng = currentAdress.lng;
+      const regularMarker = L.marker(
+        {
+          lat: addressLat,
+          lng: addressLng,
+        },
+        {
+          draggable: true,
+          icon: regularPinIcon,
+        },
+      );
+      regularMarker.addTo(map).bindPopup(similarCardsList.children[i]);
+    }
+  });
 }; 
 
 const onMove = (evt) => {
@@ -80,24 +96,5 @@ if(address.parentElement.disabled) {
 mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
-
-
-
-for (let i = 0; i < similarCardsList.children.length; i++) {
-  const currentAdress = similarCardsList.children[i].querySelector('.popup__text--address');
-  const addressLat = currentAdress.textContent.split(',')[0];
-  const addressLng = currentAdress.textContent.split(' ')[1];
-  const regularMarker = L.marker(
-    {
-      lat: addressLat,
-      lng: addressLng,
-    },
-    {
-      draggable: true,
-      icon: regularPinIcon,
-    },
-  );
-  regularMarker.addTo(map).bindPopup(similarCardsList.children[i]);
-}
 
 export {mapFilters, mapFiltersSelects}
