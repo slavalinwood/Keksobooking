@@ -13,7 +13,7 @@ const FEATURES_MAP = {
   'dishwasher': 'popup__feature--dishwasher',
   'parking': 'popup__feature--parking',
   'washer': 'popup__feature--washer',
-  'elavator': 'popup__feature--elevator',
+  'elevator': 'popup__feature--elevator',
   'conditioner': 'popup__feature--conditioner',
 };
 
