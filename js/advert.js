@@ -59,7 +59,7 @@ const createNewPhotosList = (list, data) => {
 };
 
 const renderAdverts = (similarAdverts) => {
-  similarAdverts.forEach( ({author, location, offer}) => {
+  similarAdverts.forEach( ({author, offer}) => {
     const card = cardTemplate.cloneNode(true);
     const cardPhotos = card.querySelector('.popup__photos');
     const cardFeatures = card.querySelector('.popup__features');

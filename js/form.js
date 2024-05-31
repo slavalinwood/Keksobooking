@@ -24,8 +24,6 @@ const allFormInputs = form.querySelectorAll('input');
 const roomsOptions = roomsSelect.children;
 const guestsOptions = guestsSelect.children;
 
-
-
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
   priceInput.placeholder = HOUSING_STARTING_PRICE[evt.target.value];

@@ -1,6 +1,10 @@
 import {disableForm, enableForm} from './util.js';
 import {form, formFieldsets, address} from './form.js';
 import {similarCardsList } from './advert.js';
+import { getData } from './api.js';
+import { renderAdverts } from './advert.js';
+
+const ADVERTS_COUNT = 10;
 
 const MAP_ZOOM = 10;
 
@@ -13,11 +17,17 @@ const COORDINATES = {
 const mapFilters = document.querySelector('.map__filters');
 const mapFiltersSelects = mapFilters.children;
 
+mapFilters.classList.add('map__filters--disabled');
+disableForm(mapFiltersSelects);
+
 const onMapLoad = () => {
   enableForm(mapFiltersSelects);
   enableForm(formFieldsets);
   mapFilters.classList.remove('map__filters--disabled');
   form.classList.remove('ad-form--disabled');
+  getData((advertsArray) => {
+    renderAdverts(advertsArray.slice(0, ADVERTS_COUNT));
+  })
 }; 
 
 const onMove = (evt) => {
@@ -25,9 +35,6 @@ const onMove = (evt) => {
   const coordinatesArray = Object.values(coordinates);
   address.value = `${(coordinatesArray[0]).toFixed(COORDINATES.float)}, ${(coordinatesArray[1]).toFixed(COORDINATES.float)}`;
 };
-
-mapFilters.classList.add('map__filters--disabled');
-disableForm(mapFiltersSelects);
 
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
   lat: COORDINATES.lat,
@@ -74,6 +81,8 @@ mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
 
+
+
 for (let i = 0; i < similarCardsList.children.length; i++) {
   const currentAdress = similarCardsList.children[i].querySelector('.popup__text--address');
   const addressLat = currentAdress.textContent.split(',')[0];
@@ -90,3 +99,5 @@ for (let i = 0; i < similarCardsList.children.length; i++) {
   );
   regularMarker.addTo(map).bindPopup(similarCardsList.children[i]);
 }
+
+export {mapFilters, mapFiltersSelects}
