@@ -26,9 +26,10 @@ const onMapLoad = () => {
   mapFilters.classList.remove('map__filters--disabled');
   form.classList.remove('ad-form--disabled');
   getData((advertsArray) => {
-    renderAdverts(advertsArray.slice(0, ADVERTS_COUNT));
-    for (let i = 0; i < similarCardsList.children.length; i++) {
-      const currentAdress = advertsArray[i].location;
+    const neededAdverts = advertsArray.slice(0, ADVERTS_COUNT);
+    renderAdverts(neededAdverts);
+    neededAdverts.forEach((advert, index) => {
+      const currentAdress = advert.location;
       const addressLat = currentAdress.lat;
       const addressLng = currentAdress.lng;
       const regularMarker = L.marker(
@@ -41,8 +42,8 @@ const onMapLoad = () => {
           icon: regularPinIcon,
         },
       );
-      regularMarker.addTo(map).bindPopup(similarCardsList.children[i]);
-    }
+      regularMarker.addTo(map).bindPopup(similarCardsList.children[index]);
+    })    
   });
 }; 
 
