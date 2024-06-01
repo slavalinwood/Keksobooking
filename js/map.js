@@ -67,7 +67,7 @@ const mapLayer = L.tileLayer(
   },
 );
 
-const mainPinIcon = L.icon({
+const mainMarkerIcon = L.icon({
   iconUrl: 'keksobooking-leaflet/leaflet/img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
@@ -86,7 +86,7 @@ const mainMarker = L.marker(
   },
   {
     draggable: true,
-    icon: mainPinIcon,
+    icon: mainMarkerIcon,
   },
 );
 
