@@ -1,4 +1,4 @@
-import {disableForm, enableForm} from './util.js';
+import {disableForm, enableForm, showAlert} from './util.js';
 import {form, formFieldsets, address} from './form.js';
 import {similarCardsList } from './advert.js';
 import { getData } from './api.js';
@@ -44,6 +44,8 @@ const onMapLoad = () => {
       );
       regularMarker.addTo(map).bindPopup(similarCardsList.children[index]);
     })    
+  }, () => {
+    showAlert('Не удалось загрузить объявления')
   });
 }; 
 
