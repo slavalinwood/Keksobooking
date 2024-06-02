@@ -1,4 +1,4 @@
-import { disableForm, showAlert } from './util.js';
+import { disableForm, isEscEvent } from './util.js';
 import { sendData } from './api.js';
 
 const MAX_ROOMS = '100';
@@ -24,7 +24,8 @@ const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
 const roomsOptions = roomsSelect.children;
 const guestsOptions = guestsSelect.children;
-const formSubmitError = document.querySelector('#error').content.querySelector('.error');
+const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+const formSubmitError = formSubmitErrorTemplate.cloneNode(true); 
 const formErrorButton = formSubmitError.querySelector('.error__button');
 
 const onHousingSelectChange = (evt) => {
@@ -87,12 +88,25 @@ const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
 
+const onFormSumbitErrorEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    formSubmitError.remove();
+  }
+};
+
+const onFormSubmitErrorClick = () => {
+  formSubmitError.remove();
+};
+
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(
     () => {
-      document.body.appendChild(formSubmitError.cloneNode(true));
-      
+      document.body.appendChild(formSubmitError);
+      formErrorButton.addEventListener('click', () => onFormSubmitErrorClick);
+      document.addEventListener('click', () => onFormSubmitErrorClick);
+      document.addEventListener('keydown', onFormSumbitErrorEscKeydown);
     },
     new FormData(evt.target)); 
 };

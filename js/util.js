@@ -78,4 +78,8 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME)
 };
 
-export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert};
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent};
