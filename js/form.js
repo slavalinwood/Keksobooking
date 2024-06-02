@@ -24,6 +24,8 @@ const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
 const roomsOptions = roomsSelect.children;
 const guestsOptions = guestsSelect.children;
+const formSubmitError = document.querySelector('#error').content.querySelector('.error');
+const formErrorButton = formSubmitError.querySelector('.error__button');
 
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
@@ -89,7 +91,8 @@ const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(
     () => {
-      showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+      document.body.appendChild(formSubmitError.cloneNode(true));
+      
     },
     new FormData(evt.target)); 
 };

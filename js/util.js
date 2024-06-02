@@ -56,7 +56,7 @@ const enableForm = (formControls) => {
 
 const showAlert = (message) => {
   const alert = document.createElement('div');
-
+  
   alert.style.position = 'absolute';
   alert.style.zIndex = '100';
   alert.style.left = 0;

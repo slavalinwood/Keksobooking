@@ -6,7 +6,7 @@ const getData = (onSuccess, onFail) => {
 };
 
 const sendData = (onFail, body) => {
-  fetch('https://23.javascript.htmlacademy.pro/keksobooking',
+  fetch('https://22.javascript.pages.academy/404',
     {
       method: 'POST',
       body,
@@ -18,7 +18,9 @@ const sendData = (onFail, body) => {
         onFail();
       }
     })
-    .catch(() => onFail())
+    .catch(() => onFail());
 };
 
 export {getData, sendData};
+
+// actual server path : https://23.javascript.htmlacademy.pro/keksobooking
