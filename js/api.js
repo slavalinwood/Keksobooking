@@ -5,15 +5,15 @@ const getData = (onSuccess, onFail) => {
     .catch((error) => onFail(error))
 };
 
-const sendData = (onFail, body) => {
-  fetch('https://22.javascript.pages.academy/404',
+const sendData = (onSuccess, onFail, body) => {
+  fetch('https://23.javascript.htmlacademy.pro/keksobooking',
     {
       method: 'POST',
       body,
     })
     .then((response) => {
       if (response.ok) {
-        return 
+        onSuccess();
       } else {
         onFail();
       }
@@ -23,4 +23,4 @@ const sendData = (onFail, body) => {
 
 export {getData, sendData};
 
-// actual server path : https://23.javascript.htmlacademy.pro/keksobooking
+// actual server path : 

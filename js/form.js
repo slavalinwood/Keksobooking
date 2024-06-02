@@ -1,8 +1,9 @@
-import { disableForm, isEscEvent } from './util.js';
+import { disableForm, isEscEvent, isEnterEvent } from './util.js';
 import { sendData } from './api.js';
 
 const MAX_ROOMS = '100';
 const INVALID_OUTLINE = '2px solid red';
+
 const HOUSING_STARTING_PRICE = {
   'bungalow': 0,
   'flat': 1000,
@@ -27,6 +28,8 @@ const guestsOptions = guestsSelect.children;
 const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const formSubmitError = formSubmitErrorTemplate.cloneNode(true); 
 const formErrorButton = formSubmitError.querySelector('.error__button');
+const formSubmitSuccessMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const formSubmitSuccessMessage = formSubmitSuccessMessageTemplate.cloneNode(true);
 
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
@@ -79,7 +82,7 @@ const onGuestsSelectChange = (evt) => {
 
 const onGuestsSelectInvalid =  () => {
   guestsSelect.style.outline = INVALID_OUTLINE;
-  if (guestsSelect.value < roomsSelect.value) {
+  if (guestsSelect.value <= roomsSelect.value) {
     guestsSelect.setCustomValidity('');
   }
 }; 
@@ -88,12 +91,13 @@ const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
 
-const openFormSubmitError = () => {
+const showFormSubmitError = () => {
   document.body.appendChild(formSubmitError);
 
   formErrorButton.addEventListener('click', onformErrorButtonClick);
   document.addEventListener('click', onFormSubmitErrorClick);
   document.addEventListener('keydown', onFormSumbitErrorEscKeydown);
+  document.addEventListener('keydown', onFormSumbitErrorEnterKeydown);
 };
 
 const closeFormSubmitError = () => {
@@ -102,6 +106,15 @@ const closeFormSubmitError = () => {
   formErrorButton.removeEventListener('click', onformErrorButtonClick);
   document.removeEventListener('click', onFormSubmitErrorClick);
   document.removeEventListener('keydown', onFormSumbitErrorEscKeydown);
+  document.removeEventListener('keydown', onFormSumbitErrorEnterKeydown);
+};
+
+const onformErrorButtonClick = () => {
+  closeFormSubmitError();
+};
+
+const onFormSubmitErrorClick = () => {
+  closeFormSubmitError();
 };
 
 const onFormSumbitErrorEscKeydown = (evt) => {
@@ -111,19 +124,54 @@ const onFormSumbitErrorEscKeydown = (evt) => {
   }
 };
 
-const onformErrorButtonClick = () => {
-  closeFormSubmitError();
-}
+const onFormSumbitErrorEnterKeydown = (evt) => {
+  if(isEnterEvent(evt)) {
+    evt.preventDefault();
+  }
+};
 
-const onFormSubmitErrorClick = () => {
-  closeFormSubmitError();
+const showFormSubmitSuccessMessage = () => {
+  document.body.appendChild(formSubmitSuccessMessage);
+  
+  document.addEventListener('click', onFormSubmitSuccessMessageClick);
+  document.addEventListener('keydown', onFormSubmitSuccessMessageEscKeydown);
+  document.addEventListener('keydown', onFormSubmitSuccessMessageEnterKeydown);
+}; 
+
+const closeFormSubmitSuccessMessage = () => {
+  formSubmitSuccessMessage.remove();
+
+  document.removeEventListener('click', onFormSubmitSuccessMessageClick);
+  document.removeEventListener('keydown', onFormSubmitSuccessMessageEscKeydown);
+  document.removeEventListener('keydown', onFormSubmitSuccessMessageEnterKeydown);
+};
+
+const onFormSubmitSuccessMessageClick = () => {
+  closeFormSubmitSuccessMessage();
+};
+
+const onFormSubmitSuccessMessageEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    closeFormSubmitSuccessMessage();
+  }
+};
+
+const onFormSubmitSuccessMessageEnterKeydown = (evt) => {
+  if (isEnterEvent(evt)) {
+    evt.preventDefault();
+  }
 };
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(
     () => {
-      openFormSubmitError();
+      evt.target.reset();
+      showFormSubmitSuccessMessage()
+    },
+    () => {
+      showFormSubmitError();
     },
     new FormData(evt.target)); 
 };
