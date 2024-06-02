@@ -104,8 +104,8 @@ const onFormSubmit = (evt) => {
   sendData(
     () => {
       document.body.appendChild(formSubmitError);
-      formErrorButton.addEventListener('click', () => onFormSubmitErrorClick);
-      document.addEventListener('click', () => onFormSubmitErrorClick);
+      formErrorButton.addEventListener('click', onFormSubmitErrorClick);
+      document.addEventListener('click', onFormSubmitErrorClick);
       document.addEventListener('keydown', onFormSumbitErrorEscKeydown);
     },
     new FormData(evt.target)); 
