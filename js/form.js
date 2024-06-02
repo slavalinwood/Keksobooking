@@ -88,25 +88,42 @@ const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
 
+const openFormSubmitError = () => {
+  document.body.appendChild(formSubmitError);
+
+  formErrorButton.addEventListener('click', onformErrorButtonClick);
+  document.addEventListener('click', onFormSubmitErrorClick);
+  document.addEventListener('keydown', onFormSumbitErrorEscKeydown);
+};
+
+const closeFormSubmitError = () => {
+  formSubmitError.remove();
+
+  formErrorButton.removeEventListener('click', onformErrorButtonClick);
+  document.removeEventListener('click', onFormSubmitErrorClick);
+  document.removeEventListener('keydown', onFormSumbitErrorEscKeydown);
+};
+
 const onFormSumbitErrorEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    formSubmitError.remove();
+    closeFormSubmitError();
   }
 };
 
+const onformErrorButtonClick = () => {
+  closeFormSubmitError();
+}
+
 const onFormSubmitErrorClick = () => {
-  formSubmitError.remove();
+  closeFormSubmitError();
 };
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(
     () => {
-      document.body.appendChild(formSubmitError);
-      formErrorButton.addEventListener('click', onFormSubmitErrorClick);
-      document.addEventListener('click', onFormSubmitErrorClick);
-      document.addEventListener('keydown', onFormSumbitErrorEscKeydown);
+      openFormSubmitError();
     },
     new FormData(evt.target)); 
 };
