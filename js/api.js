@@ -5,7 +5,7 @@ const getData = (onSuccess, onFail) => {
     .catch((error) => onFail(error))
 };
 
-const sendData = (onSuccess, onFail, body) => {
+const sendData = (onFail, body) => {
   fetch('https://23.javascript.htmlacademy.pro/keksobooking',
     {
       method: 'POST',
@@ -13,7 +13,7 @@ const sendData = (onSuccess, onFail, body) => {
     })
     .then((response) => {
       if (response.ok) {
-        onSuccess();
+        return 
       } else {
         onFail();
       }

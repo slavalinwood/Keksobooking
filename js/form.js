@@ -1,4 +1,4 @@
-import { disableForm } from './util.js';
+import { disableForm, showAlert } from './util.js';
 import { sendData } from './api.js';
 
 const MAX_ROOMS = '100';
@@ -85,6 +85,15 @@ const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
 
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  sendData(
+    () => {
+      showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+    },
+    new FormData(evt.target)); 
+};
+
 form.classList.add('ad-form--disabled');
 disableForm(formFieldsets);
 
@@ -103,5 +112,6 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
+form.addEventListener('submit', onFormSubmit);
 
 export {form, formFieldsets, address};
