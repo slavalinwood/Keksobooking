@@ -23,8 +23,8 @@ const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
 const formResetButton = form.querySelector('.ad-form__reset')
-const roomsOptions = roomsSelect.children;
-const guestsOptions = guestsSelect.children;
+//const roomsOptions = roomsSelect.children;
+//const guestsOptions = guestsSelect.children;
 const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const formSubmitError = formSubmitErrorTemplate.cloneNode(true); 
 const formErrorButton = formSubmitError.querySelector('.error__button');
@@ -42,7 +42,7 @@ const onTimeFieldsetChange = (evt) => {
   checkInSelect.value = evt.target.value;
 };
 
-const onRoomsSelectChange = (evt) => {
+/*const onRoomsSelectChange = (evt) => {
   for (let guestsOption of guestsOptions) {
     if (guestsOption.value > evt.target.value || guestsOption.value === '0') {
       guestsOption.disabled = true;
@@ -86,7 +86,7 @@ const onGuestsSelectInvalid =  () => {
     guestsSelect.setCustomValidity('');
   }
 }; 
-
+*/
 const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
@@ -178,8 +178,8 @@ for (let formInput of allFormInputs) {
 }
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
-roomsSelect.addEventListener('change', onRoomsSelectChange);
-guestsSelect.addEventListener('change', onGuestsSelectChange);
-guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
+//roomsSelect.addEventListener('change', onRoomsSelectChange);
+//guestsSelect.addEventListener('change', onGuestsSelectChange);
+//guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
 
 export { form, formFieldsets, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
