@@ -86,5 +86,4 @@ const isEnterEvent = (evt) => {
   return evt.key === 'Enter';
 };
 
-
-export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent, isEnterEvent};
+export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent, isEnterEvent };

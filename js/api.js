@@ -23,4 +23,3 @@ const sendData = (onSuccess, onFail, body) => {
 
 export {getData, sendData};
 
-// actual server path : 

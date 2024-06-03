@@ -8,7 +8,7 @@ const ADVERTS_COUNT = 10;
 
 const MAP_ZOOM = 10;
 
-const COORDINATES = {
+const DEFAULT_COORDINATES = {
   lat: 35.65283,
   lng: 139.83948,
   float: 5,
@@ -52,12 +52,12 @@ const onMapLoad = () => {
 const onMove = (evt) => {
   const coordinates = evt.target.getLatLng();
   const coordinatesArray = Object.values(coordinates);
-  address.value = `${(coordinatesArray[0]).toFixed(COORDINATES.float)}, ${(coordinatesArray[1]).toFixed(COORDINATES.float)}`;
+  address.value = `${(coordinatesArray[0]).toFixed(DEFAULT_COORDINATES.float)}, ${(coordinatesArray[1]).toFixed(DEFAULT_COORDINATES.float)}`;
 };
 
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
-  lat: COORDINATES.lat,
-  lng: COORDINATES.lng,
+  lat: DEFAULT_COORDINATES.lat,
+  lng: DEFAULT_COORDINATES.lng,
 }, MAP_ZOOM);
 
 const mapLayer = L.tileLayer(
@@ -81,8 +81,8 @@ const regularPinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: COORDINATES.lat,
-    lng: COORDINATES.lng,
+    lat: DEFAULT_COORDINATES.lat,
+    lng: DEFAULT_COORDINATES.lng,
   },
   {
     draggable: true,
@@ -93,11 +93,11 @@ const mainMarker = L.marker(
 if(address.parentElement.disabled) {
   address.value = '';
 } else {
-  address.defaultValue = `${COORDINATES.lat}, ${COORDINATES.lng}`;
+  address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`;
 }
 
 mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
 
-export {mapFilters, mapFiltersSelects}
+export { mainMarker, DEFAULT_COORDINATES };

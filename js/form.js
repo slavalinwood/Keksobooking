@@ -1,5 +1,4 @@
 import { disableForm, isEscEvent, isEnterEvent } from './util.js';
-import { sendData } from './api.js';
 
 const MAX_ROOMS = '100';
 const INVALID_OUTLINE = '2px solid red';
@@ -23,6 +22,7 @@ const checkoutSelect = timeFieldset.querySelector('#timeout');
 const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
+const formResetButton = form.querySelector('.ad-form__reset')
 const roomsOptions = roomsSelect.children;
 const guestsOptions = guestsSelect.children;
 const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -163,19 +163,6 @@ const onFormSubmitSuccessMessageEnterKeydown = (evt) => {
   }
 };
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  sendData(
-    () => {
-      evt.target.reset();
-      showFormSubmitSuccessMessage()
-    },
-    () => {
-      showFormSubmitError();
-    },
-    new FormData(evt.target)); 
-};
-
 form.classList.add('ad-form--disabled');
 disableForm(formFieldsets);
 
@@ -194,6 +181,5 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
-form.addEventListener('submit', onFormSubmit);
 
-export {form, formFieldsets, address};
+export { form, formFieldsets, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
