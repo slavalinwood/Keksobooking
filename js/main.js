@@ -1,5 +1,5 @@
 import {form, showFormSubmitSuccessMessage, showFormSubmitError, formResetButton } from './form.js';
-import { mainMarker, DEFAULT_COORDINATES } from './map.js';
+import { mainMarker, DEFAULT_COORDINATES, mapFilters } from './map.js';
 import { sendData } from './api.js';
 
 const onFormSubmit = (evt) => {
@@ -7,6 +7,7 @@ const onFormSubmit = (evt) => {
   sendData(
     () => {
       evt.target.reset();
+      mapFilters.reset();
       mainMarker.setLatLng(DEFAULT_COORDINATES);
       showFormSubmitSuccessMessage()
     },
@@ -17,4 +18,8 @@ const onFormSubmit = (evt) => {
 };
 
 form.addEventListener('submit', onFormSubmit);
-formResetButton.addEventListener('click', () => mainMarker.setLatLng(DEFAULT_COORDINATES));
+
+formResetButton.addEventListener('click', () => {
+  mainMarker.setLatLng(DEFAULT_COORDINATES);
+  mapFilters.reset();
+});

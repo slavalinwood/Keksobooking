@@ -1,5 +1,5 @@
 import {disableForm, enableForm, showAlert} from './util.js';
-import {form, formFieldsets, address} from './form.js';
+import {form, address} from './form.js';
 import {similarCardsList } from './advert.js';
 import { getData } from './api.js';
 import { renderAdverts } from './advert.js';
@@ -15,16 +15,16 @@ const DEFAULT_COORDINATES = {
 };
 
 const mapFilters = document.querySelector('.map__filters');
-const mapFiltersSelects = mapFilters.children;
 
 mapFilters.classList.add('map__filters--disabled');
-disableForm(mapFiltersSelects);
+disableForm(mapFilters);
 
 const onMapLoad = () => {
-  enableForm(mapFiltersSelects);
-  enableForm(formFieldsets);
+  enableForm(mapFilters);
+  enableForm(form);
   mapFilters.classList.remove('map__filters--disabled');
   form.classList.remove('ad-form--disabled');
+  address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`
   getData((advertsArray) => {
     const neededAdverts = advertsArray.slice(0, ADVERTS_COUNT);
     renderAdverts(neededAdverts);
@@ -90,14 +90,8 @@ const mainMarker = L.marker(
   },
 );
 
-if(address.parentElement.disabled) {
-  address.value = '';
-} else {
-  address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`;
-}
-
 mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
 
-export { mainMarker, DEFAULT_COORDINATES };
+export { mainMarker, DEFAULT_COORDINATES, mapFilters };

@@ -1,6 +1,6 @@
 import { disableForm, isEscEvent, isEnterEvent } from './util.js';
 
-const MAX_ROOMS = '100';
+//const MAX_ROOMS = '100';
 const INVALID_OUTLINE = '2px solid red';
 
 const HOUSING_STARTING_PRICE = {
@@ -11,7 +11,6 @@ const HOUSING_STARTING_PRICE = {
 };
 
 const form = document.querySelector('.ad-form');
-const formFieldsets = form.children;
 const address = form.querySelector('#address');
 const housingSelect = form.querySelector('#type');
 const selectedHousing = housingSelect.querySelector('[selected]');
@@ -19,8 +18,8 @@ const priceInput = form.querySelector('#price');
 const timeFieldset = form.querySelector('.ad-form__element--time');
 const checkInSelect = timeFieldset.querySelector('#timein');
 const checkoutSelect = timeFieldset.querySelector('#timeout');
-const roomsSelect = form.querySelector('#room_number');
-const guestsSelect = form.querySelector('#capacity');
+//const roomsSelect = form.querySelector('#room_number');
+//const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
 const formResetButton = form.querySelector('.ad-form__reset')
 //const roomsOptions = roomsSelect.children;
@@ -163,23 +162,24 @@ const onFormSubmitSuccessMessageEnterKeydown = (evt) => {
   }
 };
 
-form.classList.add('ad-form--disabled');
-disableForm(formFieldsets);
-
 priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
 
-if (guestsSelect.value > roomsSelect.value) {
+/*if (guestsSelect.value > roomsSelect.value) {
   guestsSelect.setCustomValidity('Мест не должно быть больше комнат!')
 }
+*/
 
 for (let formInput of allFormInputs) {
   formInput.addEventListener('invalid', onInputInvalid);
 }
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
+
+form.classList.add('ad-form--disabled');
+disableForm(form);
 //roomsSelect.addEventListener('change', onRoomsSelectChange);
 //guestsSelect.addEventListener('change', onGuestsSelectChange);
 //guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
 
-export { form, formFieldsets, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
+export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };

@@ -42,13 +42,15 @@ const generateFilePath = (path, counter, format) => {
   return path + '0' + number + format;
 };
 
-const disableForm = (formControls) => {
+const disableForm = (form) => {
+  const formControls = form.children;
   for (let i = 0; i < formControls.length; i++) {
     formControls[i].disabled = true;
   }
 };
 
-const enableForm = (formControls) => {
+const enableForm = (form) => {
+  const formControls = form.children;
   for (let i = 0; i < formControls.length; i++) {
     formControls[i].disabled = false;
   }
