@@ -1,5 +1,5 @@
-import {disableForm, enableForm, showAlert} from './util.js';
-import {form, address, validateGuestsRoomsSelects } from './form.js';
+import { disableForm, enableForm, showAlert} from './util.js';
+import { form, address } from './form.js';
 import {similarCardsList } from './advert.js';
 import { getData } from './api.js';
 import { renderAdverts } from './advert.js';
@@ -43,7 +43,6 @@ const renderAdvertsMarkers = (advertsArray) => {
 const onMapLoad = () => {
   enableForm(mapFilters);
   enableForm(form);
-  validateGuestsRoomsSelects();
   mapFilters.classList.remove('map__filters--disabled');
   form.classList.remove('ad-form--disabled');
   address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`

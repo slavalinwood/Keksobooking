@@ -54,7 +54,7 @@ const validateGuestsRoomsSelects = () => {
       option.disabled = false;
     }
   }
-   
+
   if (roomsSelect.value < guestsSelect.value && guestsSelect.value !== '0') {
     guestsSelect.setCustomValidity('Мест не должно быть больше комнат!')
     guestsSelect.style.outline = INVALID_OUTLINE;
@@ -166,9 +166,9 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 
-
+validateGuestsRoomsSelects();
 
 form.classList.add('ad-form--disabled');
 disableForm(form);
 
-export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects };
+export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
