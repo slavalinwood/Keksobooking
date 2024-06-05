@@ -19,6 +19,27 @@ const mapFilters = document.querySelector('.map__filters');
 mapFilters.classList.add('map__filters--disabled');
 disableForm(mapFilters);
 
+const renderAdvertsMarkers = (advertsArray) => {
+  const neededAdverts = advertsArray.slice(0, ADVERTS_COUNT);
+  renderAdverts(neededAdverts);
+  neededAdverts.forEach((advert, index) => {
+    const currentAdress = advert.location;
+    const addressLat = currentAdress.lat;
+    const addressLng = currentAdress.lng;
+    const regularMarker = L.marker(
+      {
+        lat: addressLat,
+        lng: addressLng,
+      },
+      {
+        draggable: true,
+        icon: regularPinIcon,
+      },
+    );
+    regularMarker.addTo(map).bindPopup(similarCardsList.children[index]);
+  })    
+} 
+
 const onMapLoad = () => {
   enableForm(mapFilters);
   enableForm(form);
@@ -26,24 +47,7 @@ const onMapLoad = () => {
   form.classList.remove('ad-form--disabled');
   address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`
   getData((advertsArray) => {
-    const neededAdverts = advertsArray.slice(0, ADVERTS_COUNT);
-    renderAdverts(neededAdverts);
-    neededAdverts.forEach((advert, index) => {
-      const currentAdress = advert.location;
-      const addressLat = currentAdress.lat;
-      const addressLng = currentAdress.lng;
-      const regularMarker = L.marker(
-        {
-          lat: addressLat,
-          lng: addressLng,
-        },
-        {
-          draggable: true,
-          icon: regularPinIcon,
-        },
-      );
-      regularMarker.addTo(map).bindPopup(similarCardsList.children[index]);
-    })    
+    renderAdvertsMarkers(advertsArray);
   }, () => {
     showAlert('Не удалось загрузить объявления')
   });

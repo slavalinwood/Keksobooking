@@ -1,6 +1,6 @@
 import { disableForm, isEscEvent, isEnterEvent } from './util.js';
 
-//const MAX_ROOMS = '100';
+const MAX_ROOMS = '100';
 const INVALID_OUTLINE = '2px solid red';
 
 const HOUSING_STARTING_PRICE = {
@@ -18,12 +18,10 @@ const priceInput = form.querySelector('#price');
 const timeFieldset = form.querySelector('.ad-form__element--time');
 const checkInSelect = timeFieldset.querySelector('#timein');
 const checkoutSelect = timeFieldset.querySelector('#timeout');
-//const roomsSelect = form.querySelector('#room_number');
-//const guestsSelect = form.querySelector('#capacity');
+const roomsSelect = form.querySelector('#room_number');
+const guestsSelect = form.querySelector('#capacity');
 const allFormInputs = form.querySelectorAll('input');
 const formResetButton = form.querySelector('.ad-form__reset')
-//const roomsOptions = roomsSelect.children;
-//const guestsOptions = guestsSelect.children;
 const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const formSubmitError = formSubmitErrorTemplate.cloneNode(true); 
 const formErrorButton = formSubmitError.querySelector('.error__button');
@@ -41,51 +39,34 @@ const onTimeFieldsetChange = (evt) => {
   checkInSelect.value = evt.target.value;
 };
 
-/*const onRoomsSelectChange = (evt) => {
-  for (let guestsOption of guestsOptions) {
-    if (guestsOption.value > evt.target.value || guestsOption.value === '0') {
-      guestsOption.disabled = true;
-    }else {
-      guestsOption.disabled = false;
-      guestsSelect.value = guestsOption.value;
-    }
-    if (evt.target.value === MAX_ROOMS) {
-      if (guestsOption.value !== '0') {
-        guestsOption.disabled = true;
-      }else {
-        guestsOption.disabled = false;
-        guestsSelect.value = guestsOption.value;
-      }
-    }
-  }
-};
-
-const onGuestsSelectChange = (evt) => {
-  for (let roomsOption of roomsOptions) {
-    if (roomsOption.value < evt.target.value || roomsOption.value === MAX_ROOMS) {
-      roomsOption.disabled = true;
-    }else {
-      roomsOption.disabled = false;
-      roomsSelect.value = roomsOption.value;
-    }
-    if (evt.target.value === '0') {
-      if (roomsOption.value !== MAX_ROOMS) {
-        roomsOption.disabled = true;
-      }else {
-        roomsOption.disabled = false;
-        roomsSelect.value = roomsOption.value;
-      }
-    } 
-  }
-};
-
-const onGuestsSelectInvalid =  () => {
-  guestsSelect.style.outline = INVALID_OUTLINE;
-  if (guestsSelect.value <= roomsSelect.value) {
+const validateGuestsRoomsSelects = () => {
+  if (roomsSelect.value === MAX_ROOMS && guestsSelect.value !== '0') {
+    roomsSelect.setCustomValidity('Эта опция не для гостей!');
+    roomsSelect.style.outline = INVALID_OUTLINE;
+  }else if (roomsSelect.value < guestsSelect.value && guestsSelect.value !== '0') {
+    guestsSelect.setCustomValidity('Мест не должно быть больше комнат!')
+    guestsSelect.style.outline = INVALID_OUTLINE;
+  }else if (roomsSelect.value !== MAX_ROOMS && guestsSelect.value === '0') {
+    guestsSelect.setCustomValidity('Эта опция доступна только при максимальном количестве комнат!')
+    guestsSelect.style.outline = INVALID_OUTLINE;
+  } else {
+    roomsSelect.setCustomValidity('');
+    roomsSelect.style.outline = 'none';
     guestsSelect.setCustomValidity('');
+    guestsSelect.style.outline = 'none';
   }
-}; 
-*/
+  roomsSelect.reportValidity();
+  guestsSelect.reportValidity();
+}
+
+const onRoomsSelectChange = () => {
+  validateGuestsRoomsSelects();
+};
+
+const onGuestsSelectChange = () => {
+  validateGuestsRoomsSelects();
+};
+
 const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
@@ -165,11 +146,6 @@ const onFormSubmitSuccessMessageEnterKeydown = (evt) => {
 priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
 priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
 
-/*if (guestsSelect.value > roomsSelect.value) {
-  guestsSelect.setCustomValidity('Мест не должно быть больше комнат!')
-}
-*/
-
 for (let formInput of allFormInputs) {
   formInput.addEventListener('invalid', onInputInvalid);
 }
@@ -178,8 +154,7 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 
 form.classList.add('ad-form--disabled');
 disableForm(form);
-//roomsSelect.addEventListener('change', onRoomsSelectChange);
-//guestsSelect.addEventListener('change', onGuestsSelectChange);
-//guestsSelect.addEventListener('invalid', onGuestsSelectInvalid);
+roomsSelect.addEventListener('change', onRoomsSelectChange);
+guestsSelect.addEventListener('change', onGuestsSelectChange);
 
 export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
