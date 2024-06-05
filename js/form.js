@@ -11,7 +11,7 @@ const HOUSING_STARTING_PRICE = {
 };
 
 const form = document.querySelector('.ad-form');
-const formSubmitButton = document.querySelector('.ad-form__submit');
+const formSubmitButton = form.querySelector('.ad-form__submit');
 const address = form.querySelector('#address');
 const housingSelect = form.querySelector('#type');
 const selectedHousing = housingSelect.querySelector('[selected]');
