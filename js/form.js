@@ -11,6 +11,7 @@ const HOUSING_STARTING_PRICE = {
 };
 
 const form = document.querySelector('.ad-form');
+const formSubmitButton = document.querySelector('.ad-form__submit');
 const address = form.querySelector('#address');
 const housingSelect = form.querySelector('#type');
 const selectedHousing = housingSelect.querySelector('[selected]');
@@ -22,7 +23,6 @@ const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
 const guestsSelectOptions = guestsSelect.children;
 const allFormInputs = form.querySelectorAll('input');
-const formResetButton = form.querySelector('.ad-form__reset')
 const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const formSubmitError = formSubmitErrorTemplate.cloneNode(true); 
 const formErrorButton = formSubmitError.querySelector('.error__button');
@@ -43,11 +43,7 @@ const onTimeFieldsetChange = (evt) => {
 const validateGuestsRoomsSelects = () => {
   if(roomsSelect.value === MAX_ROOMS) {
     for (let option of guestsSelectOptions) {
-      if (option.value === '0') {
-        option.selected = true;
-      }else {
-        option.disabled = true;
-      }
+      (option.value === '0') ? option.selected = true : option.disabled = true;
     }
   }else {
     for (let option of guestsSelectOptions) {
@@ -166,9 +162,7 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 
-validateGuestsRoomsSelects();
-
 form.classList.add('ad-form--disabled');
 disableForm(form);
 
-export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
+export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, formSubmitButton };

@@ -1,5 +1,5 @@
 import { disableForm, enableForm, showAlert} from './util.js';
-import { form, address } from './form.js';
+import { form, address, validateGuestsRoomsSelects, formSubmitButton } from './form.js';
 import {similarCardsList } from './advert.js';
 import { getData } from './api.js';
 import { renderAdverts } from './advert.js';
@@ -40,16 +40,19 @@ const renderAdvertsMarkers = (advertsArray) => {
   })    
 } 
 
+// Загрузка карты позволяет странице перейти в активное состояние 
+
 const onMapLoad = () => {
   enableForm(mapFilters);
   enableForm(form);
+  formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
   mapFilters.classList.remove('map__filters--disabled');
   form.classList.remove('ad-form--disabled');
   address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`
   getData((advertsArray) => {
     renderAdvertsMarkers(advertsArray);
   }, () => {
-    showAlert('Не удалось загрузить объявления')
+    showAlert('Не удалось загрузить объявления');
   });
 }; 
 
