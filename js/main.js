@@ -1,4 +1,4 @@
-import {form, showFormSubmitSuccessMessage, showFormSubmitError, formResetButton } from './form.js';
+import { form, showFormSubmitSuccessMessage, showFormSubmitError, formResetButton } from './form.js';
 import { mainMarker, DEFAULT_COORDINATES, mapFilters } from './map.js';
 import { sendData } from './api.js';
 

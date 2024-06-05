@@ -151,10 +151,10 @@ for (let formInput of allFormInputs) {
 }
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
-
-form.classList.add('ad-form--disabled');
-disableForm(form);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 
-export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError };
+form.classList.add('ad-form--disabled');
+disableForm(form);
+
+export { form, address, formResetButton, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects };
