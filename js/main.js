@@ -1,4 +1,4 @@
-import { form, showFormSubmitSuccessMessage, showFormSubmitError } from './form.js';
+import { form, showFormSubmitSuccessMessage, showFormSubmitError, priceInput, selectedHousing, HOUSING_STARTING_PRICE } from './form.js';
 import { mainMarker, DEFAULT_COORDINATES, mapFilters } from './map.js';
 import { sendData } from './api.js';
 
@@ -22,4 +22,5 @@ form.addEventListener('submit', onFormSubmit);
 form.addEventListener('reset', () => {
   mainMarker.setLatLng(DEFAULT_COORDINATES);
   mapFilters.reset();
+  priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
 });

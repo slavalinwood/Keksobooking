@@ -165,4 +165,4 @@ guestsSelect.addEventListener('change', onGuestsSelectChange);
 form.classList.add('ad-form--disabled');
 disableForm(form);
 
-export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, formSubmitButton };
+export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, formSubmitButton, selectedHousing, priceInput, housingSelect, HOUSING_STARTING_PRICE };
