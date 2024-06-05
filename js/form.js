@@ -54,10 +54,8 @@ const validateGuestsRoomsSelects = () => {
       option.disabled = false;
     }
   }
-  if (roomsSelect.value === MAX_ROOMS && guestsSelect.value !== '0') {
-    roomsSelect.setCustomValidity('Эта опция не для гостей!');
-    roomsSelect.style.outline = INVALID_OUTLINE;
-  }else if (roomsSelect.value < guestsSelect.value && guestsSelect.value !== '0') {
+   
+  if (roomsSelect.value < guestsSelect.value && guestsSelect.value !== '0') {
     guestsSelect.setCustomValidity('Мест не должно быть больше комнат!')
     guestsSelect.style.outline = INVALID_OUTLINE;
   }else if (roomsSelect.value !== MAX_ROOMS && guestsSelect.value === '0') {
