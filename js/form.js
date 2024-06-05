@@ -20,6 +20,7 @@ const checkInSelect = timeFieldset.querySelector('#timein');
 const checkoutSelect = timeFieldset.querySelector('#timeout');
 const roomsSelect = form.querySelector('#room_number');
 const guestsSelect = form.querySelector('#capacity');
+const guestsSelectOptions = guestsSelect.children;
 const allFormInputs = form.querySelectorAll('input');
 const formResetButton = form.querySelector('.ad-form__reset')
 const formSubmitErrorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -40,6 +41,19 @@ const onTimeFieldsetChange = (evt) => {
 };
 
 const validateGuestsRoomsSelects = () => {
+  if(roomsSelect.value === MAX_ROOMS) {
+    for (let option of guestsSelectOptions) {
+      if (option.value === '0') {
+        option.selected = true;
+      }else {
+        option.disabled = true;
+      }
+    }
+  }else {
+    for (let option of guestsSelectOptions) {
+      option.disabled = false;
+    }
+  }
   if (roomsSelect.value === MAX_ROOMS && guestsSelect.value !== '0') {
     roomsSelect.setCustomValidity('Эта опция не для гостей!');
     roomsSelect.style.outline = INVALID_OUTLINE;
@@ -153,6 +167,8 @@ housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
+
+
 
 form.classList.add('ad-form--disabled');
 disableForm(form);
