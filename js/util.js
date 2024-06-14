@@ -42,6 +42,37 @@ const generateFilePath = (path, counter, format) => {
   return path + '0' + number + format;
 };
 
+const createNewFeaturesList = (list, data, map) => {
+  if (!data) {
+    return
+  }
+  const tempFeature = list.children[0];
+  const newList = document.createDocumentFragment();
+  data.forEach((elem) => {
+    const feature = tempFeature.cloneNode(true);
+    const classNames = feature.classList;
+    const lastClass = classNames[classNames.length - 1];
+    feature.classList.remove(lastClass);
+    feature.classList.add(map[elem]);
+    newList.appendChild(feature);
+  }) 
+  list.innerHTML = '';
+  list.appendChild(newList);
+};
+
+const createNewPhotosList = (list, data) => {
+  if (!data) {
+    return
+  }
+  const tempPhoto = list.children[0];
+  data.forEach((elem) => {
+    const photo = tempPhoto.cloneNode(true);
+    tempPhoto.remove();
+    photo.src = elem;
+    list.appendChild(photo);
+  })
+};
+
 const disableForm = (form) => {
   const formControls = form.children;
   for (let i = 0; i < formControls.length; i++) {
@@ -88,4 +119,4 @@ const isEnterEvent = (evt) => {
   return evt.key === 'Enter';
 };
 
-export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent, isEnterEvent };
+export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent, isEnterEvent, createNewFeaturesList, createNewPhotosList };

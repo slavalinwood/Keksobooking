@@ -1,4 +1,5 @@
 //import { createAdverts } from './data.js';
+import { createNewFeaturesList, createNewPhotosList } from './util.js';
 
 const HOUSING = {
   'palace': 'Дворец',
@@ -25,37 +26,6 @@ const checkData = (node, data) => {
   if (!data) {
     node.remove();
   }
-};
-
-const createNewFeaturesList = (list, data, map) => {
-  if (!data) {
-    return
-  }
-  const tempFeature = list.children[0];
-  const newList = document.createDocumentFragment();
-  data.forEach((elem) => {
-    const feature = tempFeature.cloneNode(true);
-    const classNames = feature.classList;
-    const lastClass = classNames[classNames.length - 1];
-    feature.classList.remove(lastClass);
-    feature.classList.add(map[elem]);
-    newList.appendChild(feature);
-  }) 
-  list.innerHTML = '';
-  list.appendChild(newList);
-};
-
-const createNewPhotosList = (list, data) => {
-  if (!data) {
-    return
-  }
-  const tempPhoto = list.children[0];
-  data.forEach((elem) => {
-    const photo = tempPhoto.cloneNode(true);
-    tempPhoto.remove();
-    photo.src = elem;
-    list.appendChild(photo);
-  })
 };
 
 const renderAdverts = (similarAdverts) => {

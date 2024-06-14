@@ -6,7 +6,7 @@ const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(
     () => {
-      evt.target.reset();
+      //evt.target.reset();
       mapFilters.reset();
       mainMarker.setLatLng(DEFAULT_COORDINATES);
       showFormSubmitSuccessMessage()

@@ -40,7 +40,7 @@ const renderAdvertsMarkers = (advertsArray) => {
   })    
 } 
 
-// Загрузка карты позволяет странице перейти в активное состояние 
+// Загрузка карты переводит страницу в активное состояние 
 
 const onMapLoad = () => {
   enableForm(mapFilters);
