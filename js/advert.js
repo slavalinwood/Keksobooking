@@ -1,7 +1,7 @@
 //import { createAdverts } from './data.js';
 import { createNewFeaturesList, createNewPhotosList } from './util.js';
 
-const HOUSING = {
+const housing = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
@@ -9,7 +9,7 @@ const HOUSING = {
   'bungalow': 'Бунгало',
 };
 
-const FEATURES_MAP = {
+const featuresMap = {
   'wifi': 'popup__feature--wifi',
   'dishwasher': 'popup__feature--dishwasher',
   'parking': 'popup__feature--parking',
@@ -51,11 +51,11 @@ const renderAdverts = (similarAdverts) => {
     cardTitle.textContent = offer.title;
     cardAddress.textContent = offer.address;
     cardPrice.textContent = `${offer.price} ₽/ночь`;
-    cardType.textContent = HOUSING[offer.type];
+    cardType.textContent = housing[offer.type];
     cardCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
     cardTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
     cardDescription.textContent = offer.description;
-    createNewFeaturesList(cardFeatures, offer.features, FEATURES_MAP);
+    createNewFeaturesList(cardFeatures, offer.features, featuresMap);
     createNewPhotosList(cardPhotos, offer.photos);
   
     for (let elem of cardChildren) {

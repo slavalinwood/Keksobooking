@@ -1,14 +1,15 @@
 import{getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath} from './util.js'
 
 const AVATARS_COUNTER = 10;
+const ADVERTS_NUMBER = 10;
 
-const TITLES = [
+const titles = [
   'Приглашаем на открытую вечеринку в честь Дня святого Валентина!',
   'Приглашаем на концерт местной примадонны!',
   'Приглашаем на дегустацию изысканных деликатесов французской кухни!',
 ];
 
-const HOUSING_TYPES = [
+const housingTypes = [
   'palace',
   'flat',
   'house',
@@ -16,19 +17,19 @@ const HOUSING_TYPES = [
   'bungalow',
 ];
 
-const CHECKIN = [
+const checkin = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const CHECKOUT = [
+const checkout = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const FEATURES = [
+const features = [
   'wifi',
   'dishwasher',
   'parking',
@@ -37,18 +38,18 @@ const FEATURES = [
   'conditioner',
 ];
 
-const DESCRIPTIONS = [
+const descriptions = [
   'Старинное, аутентичное помощение, пестрящее лучшими элементами японской архитектуры 20-го века, бережно сохранённое ради вашего эстетического удовольствия!',
   'Современное, роскошное помещение, пестрящее всеми возможными проявлениями архитектуры и живописи постмодерна!',
 ];
 
-const PHOTOS = [
+const photos = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
-const COORDINATES = {
+const Coordinates = {
   xMin: 35.65000,
   xMax: 35.70000,
   yMin: 139.70000,
@@ -56,22 +57,20 @@ const COORDINATES = {
   signCounter: 5,
 };
 
-const PRICES = {
+const Prices = {
   min: 1,
   max: 100000,
 };
 
-const ROOMS = {
+const Rooms = {
   min: 1,
   max: 100,
 };
 
-const GUESTS = {
+const Guests = {
   min: 1,
   max: 50,
 };
-
-const ADVERTS_NUMBER = 10;
 
 const createAdvert = () => { 
   const advert = {
@@ -79,21 +78,21 @@ const createAdvert = () => {
       avatar: generateFilePath('img/avatars/user', AVATARS_COUNTER, '.png'),
     },
     offer: {
-      title: getRandomArrayElement(TITLES),
-      address: getRandomNumber(COORDINATES.xMin, COORDINATES.xMax, COORDINATES.signCounter) + ', ' + getRandomNumber(COORDINATES.yMin, COORDINATES.yMax, COORDINATES.signCounter),
-      price: getRandomNumber(PRICES.min, PRICES.max),
-      type: getRandomArrayElement(HOUSING_TYPES),
-      rooms: getRandomNumber(ROOMS.min, ROOMS.max),
-      guests: getRandomNumber(GUESTS.min, GUESTS.max),
-      checkin: getRandomArrayElement(CHECKIN),
-      checkout: getRandomArrayElement(CHECKOUT),
-      features: getRandomDataArray(FEATURES),
-      description: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomDataArray(PHOTOS),
+      title: getRandomArrayElement(titles),
+      address: getRandomNumber(Coordinates.xMin, Coordinates.xMax, Coordinates.signCounter) + ', ' + getRandomNumber(Coordinates.yMin, Coordinates.yMax, Coordinates.signCounter),
+      price: getRandomNumber(Prices.min, Prices.max),
+      type: getRandomArrayElement(housingTypes),
+      rooms: getRandomNumber(Rooms.min, Rooms.max),
+      guests: getRandomNumber(Guests.min, Guests.max),
+      checkin: getRandomArrayElement(checkin),
+      checkout: getRandomArrayElement(checkout),
+      features: getRandomDataArray(features),
+      description: getRandomArrayElement(descriptions),
+      photos: getRandomDataArray(photos),
     },
     location: {
-      x: getRandomNumber(COORDINATES.xMin, COORDINATES.xMax, COORDINATES.signCounter),
-      y: getRandomNumber(COORDINATES.yMin, COORDINATES.yMax, COORDINATES.signCounter),
+      x: getRandomNumber(Coordinates.xMin, Coordinates.xMax, Coordinates.signCounter),
+      y: getRandomNumber(Coordinates.yMin, Coordinates.yMax, Coordinates.signCounter),
     },
   };
 

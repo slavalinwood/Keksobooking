@@ -1,14 +1,14 @@
-import { form, showFormSubmitSuccessMessage, showFormSubmitError, priceInput, selectedHousing, HOUSING_STARTING_PRICE } from './form.js';
-import { mainMarker, DEFAULT_COORDINATES, mapFilters } from './map.js';
+import { form, showFormSubmitSuccessMessage, showFormSubmitError, setInitialPriceInputAttributes } from './form.js';
+import { mainMarker, DefaultCoordinates, mapFilters } from './map.js';
 import { sendData } from './api.js';
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(
     () => {
-      //evt.target.reset();
+      evt.target.reset();
       mapFilters.reset();
-      mainMarker.setLatLng(DEFAULT_COORDINATES);
+      mainMarker.setLatLng(DefaultCoordinates);
       showFormSubmitSuccessMessage()
     },
     () => {
@@ -20,7 +20,7 @@ const onFormSubmit = (evt) => {
 form.addEventListener('submit', onFormSubmit);
 
 form.addEventListener('reset', () => {
-  mainMarker.setLatLng(DEFAULT_COORDINATES);
+  mainMarker.setLatLng(DefaultCoordinates);
   mapFilters.reset();
-  priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
+  setInitialPriceInputAttributes();
 });

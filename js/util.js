@@ -73,6 +73,11 @@ const createNewPhotosList = (list, data) => {
   })
 };
 
+const setNumberInputAttributes = (input, number) => {
+  input.min = number;
+  input.placeholder = number;
+};
+
 const disableForm = (form) => {
   const formControls = form.children;
   for (let i = 0; i < formControls.length; i++) {
@@ -119,4 +124,4 @@ const isEnterEvent = (evt) => {
   return evt.key === 'Enter';
 };
 
-export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent, isEnterEvent, createNewFeaturesList, createNewPhotosList };
+export {getRandomNumber, getRandomArrayElement, getRandomDataArray, generateFilePath, disableForm, enableForm, showAlert, isEscEvent, isEnterEvent, createNewFeaturesList, createNewPhotosList, setNumberInputAttributes };

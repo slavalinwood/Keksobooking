@@ -1,9 +1,9 @@
-import { disableForm, isEscEvent, isEnterEvent } from './util.js';
+import { disableForm, isEscEvent, isEnterEvent, setNumberInputAttributes } from './util.js';
 
 const MAX_ROOMS = '100';
 const INVALID_OUTLINE = '2px solid red';
 
-const HOUSING_STARTING_PRICE = {
+const housingStartingPrice = {
   'bungalow': 0,
   'flat': 1000,
   'house': 5000,
@@ -31,8 +31,7 @@ const formSubmitSuccessMessage = formSubmitSuccessMessageTemplate.cloneNode(true
 
 const onHousingSelectChange = (evt) => {
   priceInput.value = '';
-  priceInput.placeholder = HOUSING_STARTING_PRICE[evt.target.value];
-  priceInput.min = HOUSING_STARTING_PRICE[evt.target.value];
+  setNumberInputAttributes(priceInput, housingStartingPrice[evt.target.value]);
 };
 
 const onTimeFieldsetChange = (evt) => {
@@ -151,8 +150,9 @@ const onFormSubmitSuccessMessageEnterKeydown = (evt) => {
   }
 };
 
-priceInput.min = HOUSING_STARTING_PRICE[selectedHousing.value];
-priceInput.placeholder = HOUSING_STARTING_PRICE[selectedHousing.value];
+const setInitialPriceInputAttributes = () => {
+  setNumberInputAttributes(priceInput, housingStartingPrice[selectedHousing.value]);
+};
 
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
@@ -161,7 +161,8 @@ guestsSelect.addEventListener('change', onGuestsSelectChange);
 priceInput.addEventListener('invalid', onInputInvalid);
 title.addEventListener('invalid', onInputInvalid);
 
+setInitialPriceInputAttributes();
 form.classList.add('ad-form--disabled');
 disableForm(form);
 
-export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, formSubmitButton, selectedHousing, priceInput, housingSelect, HOUSING_STARTING_PRICE };
+export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, setInitialPriceInputAttributes, formSubmitButton, housingSelect };

@@ -5,13 +5,12 @@ import { getData } from './api.js';
 import { renderAdverts } from './advert.js';
 
 const ADVERTS_COUNT = 10;
-
 const MAP_ZOOM = 10;
+const COORDINATES_FLOAT = 5;
 
-const DEFAULT_COORDINATES = {
+const DefaultCoordinates = {
   lat: 35.65283,
   lng: 139.83948,
-  float: 5,
 };
 
 const mapFilters = document.querySelector('.map__filters');
@@ -41,14 +40,13 @@ const renderAdvertsMarkers = (advertsArray) => {
 } 
 
 // Загрузка карты переводит страницу в активное состояние 
-
 const onMapLoad = () => {
   enableForm(mapFilters);
   enableForm(form);
   formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
   mapFilters.classList.remove('map__filters--disabled');
   form.classList.remove('ad-form--disabled');
-  address.defaultValue = `${DEFAULT_COORDINATES.lat}, ${DEFAULT_COORDINATES.lng}`
+  address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`
   getData((advertsArray) => {
     renderAdvertsMarkers(advertsArray);
   }, () => {
@@ -59,12 +57,14 @@ const onMapLoad = () => {
 const onMove = (evt) => {
   const coordinates = evt.target.getLatLng();
   const coordinatesArray = Object.values(coordinates);
-  address.value = `${(coordinatesArray[0]).toFixed(DEFAULT_COORDINATES.float)}, ${(coordinatesArray[1]).toFixed(DEFAULT_COORDINATES.float)}`;
+  const latCoordinate = coordinatesArray[0];
+  const lngCoordinate = coordinatesArray[1];
+  address.value = `${(latCoordinate).toFixed(COORDINATES_FLOAT)}, ${(lngCoordinate).toFixed(COORDINATES_FLOAT)}`;
 };
 
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
-  lat: DEFAULT_COORDINATES.lat,
-  lng: DEFAULT_COORDINATES.lng,
+  lat: DefaultCoordinates.lat,
+  lng: DefaultCoordinates.lng,
 }, MAP_ZOOM);
 
 const mapLayer = L.tileLayer(
@@ -88,8 +88,8 @@ const regularPinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: DEFAULT_COORDINATES.lat,
-    lng: DEFAULT_COORDINATES.lng,
+    lat: DefaultCoordinates.lat,
+    lng: DefaultCoordinates.lng,
   },
   {
     draggable: true,
@@ -101,4 +101,4 @@ mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
 
-export { mainMarker, DEFAULT_COORDINATES, mapFilters };
+export { mainMarker, DefaultCoordinates, mapFilters };
