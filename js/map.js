@@ -1,3 +1,5 @@
+/* global L:readonly */
+
 import { disableForm, enableForm, showAlert} from './util.js';
 import { form, address, validateGuestsRoomsSelects, formSubmitButton } from './form.js';
 import {similarCardsList } from './advert.js';
