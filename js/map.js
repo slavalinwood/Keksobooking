@@ -1,13 +1,13 @@
 /* global L:readonly */
 
 import { disableForm, enableForm, showAlert} from './util.js';
-import { form, address, validateGuestsRoomsSelects, formSubmitButton } from './form.js';
-import {similarCardsList } from './advert.js';
+import { address, validateGuestsRoomsSelects, formSubmitButton, enableAdvertForm } from './form.js';
+import { similarCardsList } from './advert.js';
 import { getData } from './api.js';
 import { renderAdverts } from './advert.js';
 
 const ADVERTS_COUNT = 10;
-const MAP_ZOOM = 10;
+const MAP_ZOOM = 11;
 const COORDINATES_FLOAT = 5;
 
 const DefaultCoordinates = {
@@ -16,9 +16,17 @@ const DefaultCoordinates = {
 };
 
 const mapFilters = document.querySelector('.map__filters');
+const advertPopup = document.querySelector('.leaflet-popup');
 
-mapFilters.classList.add('map__filters--disabled');
-disableForm(mapFilters);
+const disableMapFilters = () => {
+  mapFilters.classList.add('map__filters--disabled');
+  disableForm(mapFilters);
+};
+
+const enableMapFilters = () => {
+  mapFilters.classList.remove('map__filters--disabled');
+  enableForm(mapFilters);
+};
 
 const renderAdvertsMarkers = (advertsArray) => {
   const neededAdverts = advertsArray.slice(0, ADVERTS_COUNT);
@@ -39,20 +47,19 @@ const renderAdvertsMarkers = (advertsArray) => {
     );
     regularMarker.addTo(map).bindPopup(similarCardsList.children[index]);
   })    
-} 
+}; 
 
 // Загрузка карты переводит страницу в активное состояние 
 const onMapLoad = () => {
-  enableForm(mapFilters);
-  enableForm(form);
+  enableAdvertForm();
   formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
-  mapFilters.classList.remove('map__filters--disabled');
-  form.classList.remove('ad-form--disabled');
-  address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`
+  address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`;
   getData((advertsArray) => {
     renderAdvertsMarkers(advertsArray);
+    enableMapFilters();
   }, () => {
     showAlert('Не удалось загрузить объявления');
+    disableMapFilters();
   });
 }; 
 
@@ -63,6 +70,8 @@ const onMove = (evt) => {
   const lngCoordinate = coordinatesArray[1];
   address.value = `${(latCoordinate).toFixed(COORDINATES_FLOAT)}, ${(lngCoordinate).toFixed(COORDINATES_FLOAT)}`;
 };
+
+disableMapFilters();
 
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
   lat: DefaultCoordinates.lat,
@@ -99,8 +108,13 @@ const mainMarker = L.marker(
   },
 );
 
+const onMapFilterChange = () => {
+  map.closePopup(advertPopup);
+};
+
 mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
+mapFilters.addEventListener('change', onMapFilterChange);
 
 export { mainMarker, DefaultCoordinates, mapFilters };

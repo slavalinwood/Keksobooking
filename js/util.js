@@ -80,15 +80,15 @@ const setNumberInputAttributes = (input, number) => {
 
 const disableForm = (form) => {
   const formControls = form.children;
-  for (let i = 0; i < formControls.length; i++) {
-    formControls[i].disabled = true;
+  for (let control of formControls) {
+    control.disabled = true;
   }
 };
 
 const enableForm = (form) => {
   const formControls = form.children;
-  for (let i = 0; i < formControls.length; i++) {
-    formControls[i].disabled = false;
+  for (let control of formControls) {
+    control.disabled = false;
   }
 };
 

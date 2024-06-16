@@ -1,4 +1,4 @@
-import { disableForm, isEscEvent, isEnterEvent, setNumberInputAttributes } from './util.js';
+import { disableForm, enableForm, isEscEvent, isEnterEvent, setNumberInputAttributes } from './util.js';
 
 const MAX_ROOMS = '100';
 const INVALID_OUTLINE = '2px solid red';
@@ -154,6 +154,16 @@ const setInitialPriceInputAttributes = () => {
   setNumberInputAttributes(priceInput, housingStartingPrice[selectedHousing.value]);
 };
 
+const disableAdvertForm = () => {
+  form.classList.add('ad-form--disabled');
+  disableForm(form);
+};
+
+const enableAdvertForm = () => {
+  form.classList.remove('ad-form--disabled');
+  enableForm(form);
+}
+
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
@@ -162,7 +172,6 @@ priceInput.addEventListener('invalid', onInputInvalid);
 title.addEventListener('invalid', onInputInvalid);
 
 setInitialPriceInputAttributes();
-form.classList.add('ad-form--disabled');
-disableForm(form);
+disableAdvertForm();
 
-export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, setInitialPriceInputAttributes, formSubmitButton, housingSelect };
+export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, setInitialPriceInputAttributes, formSubmitButton, housingSelect, enableAdvertForm };
