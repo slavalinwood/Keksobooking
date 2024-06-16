@@ -29,9 +29,8 @@ const enableMapFilters = () => {
 };
 
 const renderAdvertsMarkers = (advertsArray) => {
-  const neededAdverts = advertsArray.slice(0, ADVERTS_COUNT);
-  renderAdverts(neededAdverts);
-  neededAdverts.forEach((advert, index) => {
+  renderAdverts(advertsArray);
+  advertsArray.forEach((advert, index) => {
     const currentAdress = advert.location;
     const addressLat = currentAdress.lat;
     const addressLng = currentAdress.lng;
@@ -55,7 +54,7 @@ const onMapLoad = () => {
   formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
   address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`;
   getData((advertsArray) => {
-    renderAdvertsMarkers(advertsArray);
+    renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
     enableMapFilters();
   }, () => {
     showAlert('Не удалось загрузить объявления');
