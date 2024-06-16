@@ -28,7 +28,13 @@ const checkData = (node, data) => {
   }
 };
 
+/*const getFilteredAdverts = (adverts) => {
+  
+}; 
+*/
 const renderAdverts = (similarAdverts) => {
+  similarCardsList.innerHTML = '';
+
   similarAdverts.forEach( ({author, offer}) => {
     const card = cardTemplate.cloneNode(true);
     const cardPhotos = card.querySelector('.popup__photos');

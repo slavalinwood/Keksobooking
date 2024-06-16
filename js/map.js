@@ -7,7 +7,7 @@ import { getData } from './api.js';
 import { renderAdverts } from './advert.js';
 
 const ADVERTS_COUNT = 10;
-const MAP_ZOOM = 11;
+const MAP_ZOOM = 12;
 const COORDINATES_FLOAT = 5;
 
 const DefaultCoordinates = {
