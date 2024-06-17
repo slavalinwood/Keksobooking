@@ -1,5 +1,6 @@
 /* global L:readonly */
 
+
 import { disableForm, enableForm, showAlert} from './util.js';
 import { address, validateGuestsRoomsSelects, formSubmitButton, enableAdvertForm } from './form.js';
 import { similarCardsList } from './advert.js';
@@ -10,12 +11,21 @@ const ADVERTS_COUNT = 10;
 const MAP_ZOOM = 12;
 const COORDINATES_FLOAT = 5;
 
+const FilterPrices = {
+  low: 10000,
+  high: 50000,
+};
+
 const DefaultCoordinates = {
   lat: 35.65283,
   lng: 139.83948,
 };
 
 const mapFilters = document.querySelector('.map__filters');
+const housingFilter = mapFilters.querySelector('#housing-type');
+const priceFilter = mapFilters.querySelector('#housing-price');
+const roomsFilter = mapFilters.querySelector('#housing-rooms');
+const guestsFilter = mapFilters.querySelector('#housing-guests');
 const advertPopup = document.querySelector('.leaflet-popup');
 
 const disableMapFilters = () => {
@@ -56,6 +66,7 @@ const onMapLoad = () => {
   getData((advertsArray) => {
     renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
     enableMapFilters();
+    mapFilters.addEventListener('change', onMapFilterChange(advertsArray));
   }, () => {
     showAlert('Не удалось загрузить объявления');
     disableMapFilters();
@@ -107,9 +118,27 @@ const mainMarker = L.marker(
   },
 );
 
-const onMapFilterChange = () => {
-  map.closePopup(advertPopup);
-};
+const onMapFilterChange = (advertsArray) => {
+  return () => {
+    map.closePopup(advertPopup);
+    const filteredArray = advertsArray.reduce((acc, advert) => {
+      if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
+        const middlePriceFilterCheck = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
+        const highPriceFilterCheck = (priceFilter.value === 'high' && advert.offer.price >= FilterPrices.high);
+        const lowPriceFilterCheck = (priceFilter.value === 'low' && advert.offer.price <= FilterPrices.low);
+        if (middlePriceFilterCheck || highPriceFilterCheck || lowPriceFilterCheck || priceFilter.value === 'any') {
+          if (roomsFilter.value == advert.offer.rooms || roomsFilter.value === 'any') {
+            if (guestsFilter.value == advert.offer.guests || guestsFilter.value === 'any') {
+              acc.push(advert)
+            }
+          }
+        }
+      }
+      return acc;
+    }, []);
+    console.log(filteredArray);
+  };
+}
 
 mapLayer.addTo(map);
 mainMarker.addTo(map);

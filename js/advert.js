@@ -28,10 +28,6 @@ const checkData = (node, data) => {
   }
 };
 
-/*const getFilteredAdverts = (adverts) => {
-  
-}; 
-*/
 const renderAdverts = (similarAdverts) => {
   similarCardsList.innerHTML = '';
 
@@ -72,6 +68,6 @@ const renderAdverts = (similarAdverts) => {
   
     similarCardsList.appendChild(card);
   });
-}
+};
 
 export {similarCardsList, renderAdverts};
