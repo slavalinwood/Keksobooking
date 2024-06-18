@@ -74,7 +74,6 @@ const onMapLoad = () => {
   formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
   address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`;
   getData((advertsArray) => {
-    console.log(advertsArray)
     renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
     enableMapFilters();
     mapFilters.addEventListener('change', onMapFilterChange(advertsArray));
