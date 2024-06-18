@@ -40,6 +40,15 @@ const enableMapFilters = () => {
   enableForm(mapFilters);
 };
 
+const clearAdvertsMarkerPane = () => {
+  const markers = map.getPane('markerPane').children;
+
+  for (let i = markers.length - 1; i >= 1; i--) {
+    const marker = markers[i];
+    marker.remove()
+  } 
+}; 
+
 const renderAdvertsMarkers = (advertsArray) => {
   renderAdverts(advertsArray);
   advertsArray.forEach((advert, index) => {
@@ -52,7 +61,6 @@ const renderAdvertsMarkers = (advertsArray) => {
         lng: addressLng,
       },
       {
-        draggable: true,
         icon: regularPinIcon,
       },
     );
@@ -66,6 +74,7 @@ const onMapLoad = () => {
   formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
   address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`;
   getData((advertsArray) => {
+    console.log(advertsArray)
     renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
     enableMapFilters();
     mapFilters.addEventListener('change', onMapFilterChange(advertsArray));
@@ -82,8 +91,6 @@ const onMove = (evt) => {
   const lngCoordinate = coordinatesArray[1];
   address.value = `${(latCoordinate).toFixed(COORDINATES_FLOAT)}, ${(lngCoordinate).toFixed(COORDINATES_FLOAT)}`;
 };
-
-disableMapFilters();
 
 const map = L.map('map-canvas').on('load', onMapLoad).setView({
   lat: DefaultCoordinates.lat,
@@ -123,7 +130,7 @@ const mainMarker = L.marker(
 const onMapFilterChange = (advertsArray) => {
   return () => {
     map.closePopup(advertPopup);
-
+    clearAdvertsMarkerPane();
     const featuresFilterArray = Array.from(featuresFilter);
     const allFeaturesUnchecked = featuresFilterArray.every((feature) => {
       return (!feature.checked);
@@ -157,7 +164,7 @@ const onMapFilterChange = (advertsArray) => {
       }
       return acc;
     }, []);
-    console.log(filteredArray);
+    renderAdvertsMarkers(filteredArray.slice(0, ADVERTS_COUNT));
   };
 }
 

@@ -30,6 +30,7 @@ const checkData = (node, data) => {
 
 const renderAdverts = (similarAdverts) => {
   similarCardsList.innerHTML = '';
+  similarCardsList.textContent = '';
 
   similarAdverts.forEach( ({author, offer}) => {
     const card = cardTemplate.cloneNode(true);
