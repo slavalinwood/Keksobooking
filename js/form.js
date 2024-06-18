@@ -12,7 +12,7 @@ const housingStartingPrice = {
 
 const form = document.querySelector('.ad-form');
 const formSubmitButton = form.querySelector('.ad-form__submit');
-const title = form.querySelector('#title');
+const titleInput = form.querySelector('#title');
 const address = form.querySelector('#address');
 const housingSelect = form.querySelector('#type');
 const selectedHousing = housingSelect.querySelector('[selected]');
@@ -57,12 +57,9 @@ const validateGuestsRoomsSelects = () => {
     guestsSelect.setCustomValidity('Эта опция доступна только при максимальном количестве комнат!')
     guestsSelect.style.outline = INVALID_OUTLINE;
   } else {
-    roomsSelect.setCustomValidity('');
-    roomsSelect.style.outline = 'none';
     guestsSelect.setCustomValidity('');
     guestsSelect.style.outline = 'none';
   }
-  roomsSelect.reportValidity();
   guestsSelect.reportValidity();
 }
 
@@ -76,6 +73,13 @@ const onGuestsSelectChange = () => {
 
 const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
+};
+
+const onInvalidInputInput = (evt) => {
+  const validityStatus = evt.target.reportValidity()
+  if (validityStatus) {
+    evt.target.style.outline = 'none';
+  }
 };
 
 const showFormSubmitError = () => {
@@ -169,9 +173,16 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 priceInput.addEventListener('invalid', onInputInvalid);
-title.addEventListener('invalid', onInputInvalid);
+priceInput.addEventListener('input', onInvalidInputInput)
+titleInput.addEventListener('invalid', onInputInvalid);
+titleInput.addEventListener('input', onInvalidInputInput);
 
 setInitialPriceInputAttributes();
 disableAdvertForm();
 
-export { form, address, showFormSubmitSuccessMessage, showFormSubmitError, validateGuestsRoomsSelects, setInitialPriceInputAttributes, formSubmitButton, housingSelect, enableAdvertForm };
+export { 
+  form, address, showFormSubmitSuccessMessage, showFormSubmitError,
+  validateGuestsRoomsSelects, setInitialPriceInputAttributes, formSubmitButton,
+  housingSelect, enableAdvertForm, titleInput,
+  priceInput, guestsSelect
+};

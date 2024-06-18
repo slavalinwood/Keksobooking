@@ -1,4 +1,4 @@
-import { form, showFormSubmitSuccessMessage, showFormSubmitError, setInitialPriceInputAttributes } from './form.js';
+import { form, showFormSubmitSuccessMessage, showFormSubmitError, setInitialPriceInputAttributes, titleInput, priceInput, guestsSelect } from './form.js';
 import { mainMarker, DefaultCoordinates, mapFilters } from './map.js';
 import { sendData } from './api.js';
 
@@ -22,5 +22,8 @@ form.addEventListener('submit', onFormSubmit);
 form.addEventListener('reset', () => {
   mainMarker.setLatLng(DefaultCoordinates);
   mapFilters.reset();
+  titleInput.style.outline = 'none';
+  priceInput.style.outline = 'none';
+  guestsSelect.style.outline = 'none';
   setInitialPriceInputAttributes();
 });
