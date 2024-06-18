@@ -26,6 +26,8 @@ const housingFilter = mapFilters.querySelector('#housing-type');
 const priceFilter = mapFilters.querySelector('#housing-price');
 const roomsFilter = mapFilters.querySelector('#housing-rooms');
 const guestsFilter = mapFilters.querySelector('#housing-guests');
+const featuresFilterFieldset = mapFilters.querySelector('#housing-features');
+const featuresFilter = featuresFilterFieldset.querySelectorAll('input');
 const advertPopup = document.querySelector('.leaflet-popup');
 
 const disableMapFilters = () => {
@@ -121,15 +123,34 @@ const mainMarker = L.marker(
 const onMapFilterChange = (advertsArray) => {
   return () => {
     map.closePopup(advertPopup);
+
+    const featuresFilterArray = Array.from(featuresFilter);
+    const allFeaturesUnchecked = featuresFilterArray.every((feature) => {
+      return (!feature.checked);
+    });
+
     const filteredArray = advertsArray.reduce((acc, advert) => {
       if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
-        const middlePriceFilterCheck = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
-        const highPriceFilterCheck = (priceFilter.value === 'high' && advert.offer.price >= FilterPrices.high);
-        const lowPriceFilterCheck = (priceFilter.value === 'low' && advert.offer.price <= FilterPrices.low);
-        if (middlePriceFilterCheck || highPriceFilterCheck || lowPriceFilterCheck || priceFilter.value === 'any') {
+        const isMiddlePriceFilter = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
+        const isHighPriceFilter = (priceFilter.value === 'high' && advert.offer.price >= FilterPrices.high);
+        const isLowPriceFilter = (priceFilter.value === 'low' && advert.offer.price <= FilterPrices.low);
+        if (isMiddlePriceFilter || isHighPriceFilter || isLowPriceFilter || priceFilter.value === 'any') {
           if (roomsFilter.value == advert.offer.rooms || roomsFilter.value === 'any') {
             if (guestsFilter.value == advert.offer.guests || guestsFilter.value === 'any') {
-              acc.push(advert)
+              if (allFeaturesUnchecked) {
+                acc.push(advert)
+              }else {
+                featuresFilterArray.forEach((feature) => {
+                  if (feature.checked) {
+                    if (advert.offer.features) {
+                      const featureType = feature.value;
+                      if (advert.offer.features.includes(featureType) && !acc.includes(advert)) {
+                        acc.push(advert);
+                      }
+                    }
+                  }
+                })
+              }
             }
           }
         }
