@@ -135,6 +135,14 @@ const onMapFilterChange = (advertsArray) => {
   const allFeaturesUnchecked = featuresFilterArray.every((feature) => {
     return (!feature.checked);
   });
+  /*const checkedFeaturesArray = () => {
+    featuresFilterArray.reduce((acc, feature) => {
+      if (feature.checked) {
+        acc.push(feature)
+      }
+    }, []);
+  } */
+
   const filteredArray = advertsArray.reduce((acc, advert) => {
     if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
       const isMiddlePriceFilter = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
