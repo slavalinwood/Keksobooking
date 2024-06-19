@@ -1,6 +1,7 @@
 import { form, showFormSubmitSuccessMessage, showFormSubmitError, setInitialPriceInputAttributes, titleInput, priceInput, guestsSelect } from './form.js';
 import { mainMarker, DefaultCoordinates, mapFilters } from './map.js';
 import { sendData } from './api.js';
+import './photo-preview.js';
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
