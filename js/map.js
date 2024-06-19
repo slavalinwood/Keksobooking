@@ -170,6 +170,5 @@ const onMapFilterChange = (advertsArray) => {
 mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);
-mapFilters.addEventListener('change', onMapFilterChange);
 
 export { mainMarker, DefaultCoordinates, mapFilters };
