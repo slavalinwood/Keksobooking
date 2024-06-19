@@ -33,6 +33,7 @@ const onFileChooserChange = (preview, cb) => {
   };
 };
 
+avatarPreview.style.objectFit = 'cover';
 photoPreview.style.backgroundSize = 'cover';
 photoPreview.style.backgroundPosition = 'center';
 
