@@ -1,4 +1,5 @@
 /* global L:readonly */
+/*global _:readonly */
 
 
 import { disableForm, enableForm, showAlert} from './util.js';
@@ -10,6 +11,7 @@ import { renderAdverts } from './advert.js';
 const ADVERTS_COUNT = 10;
 const MAP_ZOOM = 12;
 const COORDINATES_FLOAT = 5;
+const RENDER_DELAY = 500;
 
 const FilterPrices = {
   low: 10000,
@@ -76,7 +78,7 @@ const onMapLoad = () => {
   getData((advertsArray) => {
     renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
     enableMapFilters();
-    mapFilters.addEventListener('change', onMapFilterChange(advertsArray));
+    mapFilters.addEventListener('change', _.debounce(() => onMapFilterChange(advertsArray), RENDER_DELAY));
   }, () => {
     showAlert('Не удалось загрузить объявления');
     disableMapFilters();
@@ -127,45 +129,43 @@ const mainMarker = L.marker(
 );
 
 const onMapFilterChange = (advertsArray) => {
-  return () => {
-    map.closePopup(advertPopup);
-    clearAdvertsMarkerPane();
-    const featuresFilterArray = Array.from(featuresFilter);
-    const allFeaturesUnchecked = featuresFilterArray.every((feature) => {
-      return (!feature.checked);
-    });
-
-    const filteredArray = advertsArray.reduce((acc, advert) => {
-      if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
-        const isMiddlePriceFilter = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
-        const isHighPriceFilter = (priceFilter.value === 'high' && advert.offer.price >= FilterPrices.high);
-        const isLowPriceFilter = (priceFilter.value === 'low' && advert.offer.price <= FilterPrices.low);
-        if (isMiddlePriceFilter || isHighPriceFilter || isLowPriceFilter || priceFilter.value === 'any') {
-          if (roomsFilter.value == advert.offer.rooms || roomsFilter.value === 'any') {
-            if (guestsFilter.value == advert.offer.guests || guestsFilter.value === 'any') {
-              if (allFeaturesUnchecked) {
-                acc.push(advert)
-              }else {
-                featuresFilterArray.forEach((feature) => {
-                  if (feature.checked) {
-                    if (advert.offer.features) {
-                      const featureType = feature.value;
-                      if (advert.offer.features.includes(featureType) && !acc.includes(advert)) {
-                        acc.push(advert);
-                      }
+  map.closePopup(advertPopup);
+  clearAdvertsMarkerPane();
+  const featuresFilterArray = Array.from(featuresFilter);
+  const allFeaturesUnchecked = featuresFilterArray.every((feature) => {
+    return (!feature.checked);
+  });
+  const filteredArray = advertsArray.reduce((acc, advert) => {
+    if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
+      const isMiddlePriceFilter = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
+      const isHighPriceFilter = (priceFilter.value === 'high' && advert.offer.price >= FilterPrices.high);
+      const isLowPriceFilter = (priceFilter.value === 'low' && advert.offer.price <= FilterPrices.low);
+      if (isMiddlePriceFilter || isHighPriceFilter || isLowPriceFilter || priceFilter.value === 'any') {
+        if (roomsFilter.value == advert.offer.rooms || roomsFilter.value === 'any') {
+          if (guestsFilter.value == advert.offer.guests || guestsFilter.value === 'any') {
+            if (allFeaturesUnchecked) {
+              acc.push(advert)
+            }else {
+              featuresFilterArray.forEach((feature) => {
+                if (feature.checked) {
+                  if (advert.offer.features) {
+                    const featureType = feature.value;
+                    if (advert.offer.features.includes(featureType) && !acc.includes(advert)) {
+                      acc.push(advert);
                     }
                   }
-                })
-              }
+                }
+              })
             }
           }
         }
       }
-      return acc;
-    }, []);
-    renderAdvertsMarkers(filteredArray.slice(0, ADVERTS_COUNT));
-  };
-}
+    }
+    return acc;
+  }, []);
+  renderAdvertsMarkers(filteredArray.slice(0, ADVERTS_COUNT));
+};
+
 
 mapLayer.addTo(map);
 mainMarker.addTo(map);
