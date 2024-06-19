@@ -1,4 +1,4 @@
-const ACCEPTABLE_FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const ACCEPTABLE_FILE_TYPES = ['image/jpeg', 'image/png'];
 
 const avatarFileChooser = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__preview').children[0];
@@ -11,16 +11,14 @@ const avatarChange = (preview, reader) => {
 
 const photoChange = (preview, reader) => {
   preview.style.backgroundImage = `url("${reader.result}")`;
-  preview.style.backgroundSize = 'cover';
-  preview.style.backgroundPosition = 'center';
 } ;
 
 const onFileChooserChange = (preview, cb) => {
   return (evt) => {
     const file = evt.target.files[0];
-    const fileName = file.name.toLowerCase();
-    const matched = ACCEPTABLE_FILE_TYPES.some((it) => {
-      return fileName.endsWith(it);
+    const fileType = file.type;
+    const matched = ACCEPTABLE_FILE_TYPES.some((type) => {
+      return fileType === type;
     });
     if (matched) {
       const reader = new FileReader();
@@ -34,6 +32,9 @@ const onFileChooserChange = (preview, cb) => {
     
   };
 };
+
+photoPreview.style.backgroundSize = 'cover';
+photoPreview.style.backgroundPosition = 'center';
 
 avatarFileChooser.addEventListener('change', onFileChooserChange(avatarPreview, avatarChange));
 photoFileChooser.addEventListener('change', onFileChooserChange(photoPreview, photoChange));
