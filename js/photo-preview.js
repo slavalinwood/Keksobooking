@@ -1,4 +1,4 @@
-const ACCEPTABLE_FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const ACCEPTABLE_FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const avatarFileChooser = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__preview').children[0];
