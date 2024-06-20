@@ -135,14 +135,12 @@ const onMapFilterChange = (advertsArray) => {
   const allFeaturesUnchecked = featuresFilterArray.every((feature) => {
     return (!feature.checked);
   });
-  /*const checkedFeaturesArray = () => {
-    featuresFilterArray.reduce((acc, feature) => {
-      if (feature.checked) {
-        acc.push(feature)
-      }
-    }, []);
-  } */
-
+  const checkedFeaturesArray = featuresFilterArray.reduce((acc, feature) => {
+    if (feature.checked) {
+      acc.push(feature.value)
+    }
+    return acc
+  }, []);
   const filteredArray = advertsArray.reduce((acc, advert) => {
     if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
       const isMiddlePriceFilter = (priceFilter.value === 'middle' && (advert.offer.price <= FilterPrices.high && advert.offer.price >= FilterPrices.low));
@@ -153,17 +151,13 @@ const onMapFilterChange = (advertsArray) => {
           if (guestsFilter.value == advert.offer.guests || guestsFilter.value === 'any') {
             if (allFeaturesUnchecked) {
               acc.push(advert)
-            }else {
-              featuresFilterArray.forEach((feature) => {
-                if (feature.checked) {
-                  if (advert.offer.features) {
-                    const featureType = feature.value;
-                    if (advert.offer.features.includes(featureType) && !acc.includes(advert)) {
-                      acc.push(advert);
-                    }
-                  }
-                }
-              })
+            }else if (advert.offer.features) {
+              const match = checkedFeaturesArray.every((feature) => {
+                return advert.offer.features.includes(feature);
+              });
+              if (match) {
+                acc.push(advert)
+              }
             }
           }
         }
