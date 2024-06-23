@@ -2,6 +2,7 @@ import { form, showFormSubmitSuccessMessage, showFormSubmitError, setInitialPric
 import { mainMarker, DefaultCoordinates, mapFilters } from './map.js';
 import { sendData } from './api.js';
 import './photo-preview.js';
+import { removeInvalidInputStyle } from './util.js';
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
@@ -23,8 +24,8 @@ form.addEventListener('submit', onFormSubmit);
 form.addEventListener('reset', () => {
   mainMarker.setLatLng(DefaultCoordinates);
   mapFilters.reset();
-  titleInput.style.outline = 'none';
-  priceInput.style.outline = 'none';
-  guestsSelect.style.outline = 'none';
+  removeInvalidInputStyle(titleInput);
+  removeInvalidInputStyle(priceInput);
+  removeInvalidInputStyle(guestsSelect);
   setInitialPriceInputAttributes();
 });

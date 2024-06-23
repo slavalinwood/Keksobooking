@@ -1,7 +1,6 @@
 /* global L:readonly */
 /*global _:readonly */
 
-
 import { disableForm, enableForm, showAlert} from './util.js';
 import { address, validateGuestsRoomsSelects, formSubmitButton, enableAdvertForm } from './form.js';
 import { similarCardsList } from './advert.js';
@@ -47,7 +46,7 @@ const clearAdvertsMarkerPane = () => {
 
   for (let i = markers.length - 1; i >= 1; i--) {
     const marker = markers[i];
-    marker.remove()
+    marker.remove();
   } 
 }; 
 
@@ -137,9 +136,9 @@ const onMapFilterChange = (advertsArray) => {
   });
   const checkedFeaturesArray = featuresFilterArray.reduce((acc, feature) => {
     if (feature.checked) {
-      acc.push(feature.value)
+      acc.push(feature.value);
     }
-    return acc
+    return acc;
   }, []);
   const filteredArray = advertsArray.reduce((acc, advert) => {
     if (housingFilter.value === advert.offer.type || housingFilter.value === 'any') {
@@ -150,13 +149,13 @@ const onMapFilterChange = (advertsArray) => {
         if (roomsFilter.value == advert.offer.rooms || roomsFilter.value === 'any') {
           if (guestsFilter.value == advert.offer.guests || guestsFilter.value === 'any') {
             if (allFeaturesUnchecked) {
-              acc.push(advert)
+              acc.push(advert);
             }else if (advert.offer.features) {
               const match = checkedFeaturesArray.every((feature) => {
                 return advert.offer.features.includes(feature);
               });
               if (match) {
-                acc.push(advert)
+                acc.push(advert);
               }
             }
           }
@@ -168,6 +167,7 @@ const onMapFilterChange = (advertsArray) => {
   renderAdvertsMarkers(filteredArray.slice(0, ADVERTS_COUNT));
 };
 
+//Исправить дефолтный z-index карты лифлет 
 
 mapLayer.addTo(map);
 mainMarker.addTo(map);

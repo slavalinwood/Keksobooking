@@ -124,9 +124,16 @@ const isEnterEvent = (evt) => {
   return evt.key === 'Enter';
 };
 
+const removeInvalidInputStyle = (input) => {
+  if (input.style.outline) {
+    input.style.outline = 'none';
+  }
+};
+
 export {
   getRandomNumber, getRandomArrayElement, getRandomDataArray,
   generateFilePath, disableForm, enableForm,
   showAlert, isEscEvent, isEnterEvent,
-  createNewFeaturesList, createNewPhotosList, setNumberInputAttributes
+  createNewFeaturesList, createNewPhotosList, setNumberInputAttributes,
+  removeInvalidInputStyle
 };
