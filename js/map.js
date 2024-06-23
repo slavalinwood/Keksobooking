@@ -167,8 +167,6 @@ const onMapFilterChange = (advertsArray) => {
   renderAdvertsMarkers(filteredArray.slice(0, ADVERTS_COUNT));
 };
 
-//Исправить дефолтный z-index карты лифлет 
-
 mapLayer.addTo(map);
 mainMarker.addTo(map);
 mainMarker.on('move', onMove);

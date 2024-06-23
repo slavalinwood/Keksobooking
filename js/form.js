@@ -166,7 +166,10 @@ const setInitialPriceInputAttributes = () => {
 const enableAdvertForm = () => {
   form.classList.remove('ad-form--disabled');
   enableForm(form);
-}
+};
+
+formSubmitError.style.zIndex = '1000';
+formSubmitSuccessMessage.style.zIndex = '1000';
 
 housingSelect.addEventListener('change', onHousingSelectChange);
 timeFieldset.addEventListener('change', onTimeFieldsetChange);
