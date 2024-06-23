@@ -16,15 +16,18 @@ const onFileChooserChange = (preview) => {
     if (matched) {
       const reader = new FileReader();
 
-      reader.addEventListener('load', () => {
-        if (deafultPreview && !deafultPreview.style.opacity) {
+      const onReaderLoad = () => {
+        if (deafultPreview && deafultPreview.style.opacity !== '0') {
           deafultPreview.style.opacity = '0';
         }
         preview.style.backgroundSize = 'cover';
         preview.style.backgroundPosition = 'center';
         preview.style.backgroundImage = `url("${reader.result}")`;
-      });
 
+        reader.removeEventListener('load', onReaderLoad);
+      }
+
+      reader.addEventListener('load', onReaderLoad);
       reader.readAsDataURL(file);
     }
     
