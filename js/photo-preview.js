@@ -31,5 +31,17 @@ const onFileChooserChange = (preview) => {
   };
 };
 
+const resetPreview = (preview) => {
+  if (preview.children[0]) {
+    preview.children[0].style.opacity = '1';
+  }
+
+  if (preview.style.backgroundImage) {
+    preview.style.backgroundImage = 'none';
+  }
+};
+
 avatarFileChooser.addEventListener('change', onFileChooserChange(avatarPreview));
 photoFileChooser.addEventListener('change', onFileChooserChange(photoPreview));
+
+export { resetPreview, avatarPreview, photoPreview };
