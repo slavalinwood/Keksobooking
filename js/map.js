@@ -75,10 +75,11 @@ const onMapLoad = () => {
   formSubmitButton.addEventListener('click', validateGuestsRoomsSelects);
   address.defaultValue = `${DefaultCoordinates.lat}, ${DefaultCoordinates.lng}`;
   getData((advertsArray) => {
-    renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
+    const defaultAdverts = advertsArray.slice(0, ADVERTS_COUNT);
+    renderAdvertsMarkers(defaultAdverts);
     enableMapFilters();
     mapFilters.addEventListener('change', _.debounce(() => onMapFiltersChange(advertsArray), RENDER_DELAY));
-    mapFilters.addEventListener('reset', onMapFiltersReset(advertsArray));
+    mapFilters.addEventListener('reset', onMapFiltersReset(defaultAdverts));
   }, () => {
     showAlert('Не удалось загрузить объявления');
     disableMapFilters();
@@ -171,7 +172,7 @@ const onMapFiltersChange = (advertsArray) => {
 const onMapFiltersReset = (advertsArray) => {
   return () => {
     clearAdvertsMarkerPane();
-    renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
+    renderAdvertsMarkers(advertsArray);
   };
 };
 
