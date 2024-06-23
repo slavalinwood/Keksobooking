@@ -77,7 +77,8 @@ const onMapLoad = () => {
   getData((advertsArray) => {
     renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
     enableMapFilters();
-    mapFilters.addEventListener('change', _.debounce(() => onMapFilterChange(advertsArray), RENDER_DELAY));
+    mapFilters.addEventListener('change', _.debounce(() => onMapFiltersChange(advertsArray), RENDER_DELAY));
+    mapFilters.addEventListener('reset', onMapFiltersReset(advertsArray));
   }, () => {
     showAlert('Не удалось загрузить объявления');
     disableMapFilters();
@@ -127,7 +128,7 @@ const mainMarker = L.marker(
   },
 );
 
-const onMapFilterChange = (advertsArray) => {
+const onMapFiltersChange = (advertsArray) => {
   map.closePopup(advertPopup);
   clearAdvertsMarkerPane();
   const featuresFilterArray = Array.from(featuresFilter);
@@ -165,6 +166,13 @@ const onMapFilterChange = (advertsArray) => {
     return acc;
   }, []);
   renderAdvertsMarkers(filteredArray.slice(0, ADVERTS_COUNT));
+};
+
+const onMapFiltersReset = (advertsArray) => {
+  return () => {
+    clearAdvertsMarkerPane();
+    renderAdvertsMarkers(advertsArray.slice(0, ADVERTS_COUNT));
+  };
 };
 
 mapLayer.addTo(map);
