@@ -30,7 +30,6 @@ const formSubmitSuccessMessageTemplate = document.querySelector('#success').cont
 const formSubmitSuccessMessage = formSubmitSuccessMessageTemplate.cloneNode(true);
 
 const onHousingSelectChange = (evt) => {
-  priceInput.value = '';
   setNumberInputAttributes(priceInput, housingStartingPrice[evt.target.value]);
 };
 
