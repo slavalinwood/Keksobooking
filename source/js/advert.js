@@ -1,4 +1,3 @@
-//import { createAdverts } from './data.js';
 import { createNewFeaturesList, createNewPhotosList } from './util.js';
 
 const housing = {
@@ -19,7 +18,6 @@ const featuresMap = {
 };
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-//const adverts = createAdverts();
 const similarCardsList = document.createDocumentFragment();
 
 const checkData = (node, data) => {

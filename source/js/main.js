@@ -1,4 +1,6 @@
-import { form, showFormSubmitSuccessMessage, showFormSubmitError, setInitialPriceInputAttributes, titleInput, priceInput, guestsSelect } from './form.js';
+import { form, showFormSubmitSuccessMessage, showFormSubmitError,
+  setInitialPriceInputAttributes, titleInput, priceInput,
+  guestsSelect } from './form.js';
 import { mainMarker, DefaultCoordinates, mapFilters } from './map.js';
 import { sendData } from './api.js';
 import { resetPreview, avatarPreview, photoPreview } from './photo-preview.js';

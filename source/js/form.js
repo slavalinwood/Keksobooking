@@ -74,7 +74,7 @@ const onInputInvalid = (evt) => {
   evt.target.style.outline = INVALID_OUTLINE;
 };
 
-const onInvalidInputInput = (evt) => {
+const onInputInput = (evt) => {
   const validityStatus = evt.target.reportValidity()
   if (validityStatus) {
     evt.target.style.outline = 'none';
@@ -157,11 +157,6 @@ const setInitialPriceInputAttributes = () => {
   setNumberInputAttributes(priceInput, housingStartingPrice[selectedHousing.value]);
 };
 
-/*const disableAdvertForm = () => {
-  form.classList.add('ad-form--disabled');
-  disableForm(form);
-};
-*/
 const enableAdvertForm = () => {
   form.classList.remove('ad-form--disabled');
   enableForm(form);
@@ -175,12 +170,11 @@ timeFieldset.addEventListener('change', onTimeFieldsetChange);
 roomsSelect.addEventListener('change', onRoomsSelectChange);
 guestsSelect.addEventListener('change', onGuestsSelectChange);
 priceInput.addEventListener('invalid', onInputInvalid);
-priceInput.addEventListener('input', onInvalidInputInput)
+priceInput.addEventListener('input', onInputInput)
 titleInput.addEventListener('invalid', onInputInvalid);
-titleInput.addEventListener('input', onInvalidInputInput);
+titleInput.addEventListener('input', onInputInput);
 
 setInitialPriceInputAttributes();
-//disableAdvertForm();
 
 export { 
   form, address, showFormSubmitSuccessMessage, showFormSubmitError,
